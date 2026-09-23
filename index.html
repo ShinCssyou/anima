@@ -1,1310 +1,238 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ANIMA - AI 기반 개인 맞춤형 기침 음향 패턴 변화 기록 시스템 프로젝트 소개" />
-  <title>ANIMA — Cough Acoustic Pattern Project</title>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2455ed">
+  <meta name="description" content="ANIMA는 기침 소리의 음향적 특징과 시간에 따른 변화를 기록하는 연구·교육용 프로젝트입니다. 구현 화면과 분석 과정, PDF 보고서, 2026년 8월까지의 개발 기록을 소개합니다.">
+  <title>ANIMA — 기침의 변화를, 기록으로 읽다</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232455ed'/%3E%3Cpath d='M13 35h7l5-17 9 30 7-23 5 10h5' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
-    :root{
-      --paper:#f7f8f4;
-      --ink:#142127;
-      --sub:#627078;
-      --line:#cfd8d6;
-      --cyan:#69d2db;
-      --mint:#a7e0c1;
-      --lime:#d6ec8a;
-      --peach:#f3b38c;
-      --blue:#367d8c;
-      --panel:#ffffff;
-      --soft:#eef3f1;
-      --dark:#173038;
-      --max:1180px;
-    }
+    :root{--blue:#2455ed;--blue-dark:#153dbb;--ink:#18202e;--muted:#596577;--line:#dce2eb;--pale:#f1f5ff;--paper:#fff;--green:#0a7860;--mono:Consolas,"Courier New",monospace;--sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:96px}body{margin:0;color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.75;background:var(--paper);word-break:keep-all;overflow-wrap:anywhere}a{color:inherit;text-underline-offset:5px}button{font:inherit}button,a,summary{-webkit-tap-highlight-color:transparent}button{cursor:pointer}svg{display:block;width:100%;height:auto}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:5px}::selection{background:#dbe5ff;color:#143496}.wrap{max-width:1280px;padding:0 48px;margin:auto}.skip{position:absolute;top:-100px;left:16px;background:white;padding:10px 20px;z-index:100}.skip:focus{top:12px}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line)}.nav{height:84px;display:flex;align-items:center;justify-content:space-between;gap:28px}.logo{text-decoration:none;font:800 27px/1 Arial,sans-serif;letter-spacing:-1px;display:flex;align-items:center;gap:9px}.logo svg{width:29px}.navlinks{display:flex;align-items:center;gap:29px}.navlinks a{text-decoration:none;font-size:14px;font-weight:600}.navlinks a:hover{color:var(--blue)}.nav-out{border-bottom:1px solid var(--ink);padding-bottom:3px}.menu-toggle{display:none;background:none;border:1px solid var(--line);padding:6px 12px;border-radius:5px;color:var(--ink)}
+    .eyebrow{font:500 13px/1.4 var(--mono);letter-spacing:1.1px;text-transform:uppercase;display:flex;align-items:center;gap:10px;color:var(--blue)}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor}.hero{padding:78px 0 55px}.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}.hero h1{font-size:clamp(40px,4.55vw,66px);line-height:1.25;letter-spacing:-3.5px;margin:27px 0 26px;font-weight:750}.hero h1 em{font-style:normal;color:var(--blue)}.hero-copy{max-width:480px;font-size:17px;color:var(--muted);line-height:1.9}.actions{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:33px}.button{display:inline-flex;gap:22px;align-items:center;justify-content:center;border:1px solid var(--blue);background:var(--blue);color:#fff;border-radius:5px;padding:12px 19px;text-decoration:none;font-size:15px;font-weight:650;transition:background .2s}.button:hover{background:var(--blue-dark)}.text-link{font-size:14px;text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:2px}.text-link:hover{color:var(--blue)}.hero-note{font-size:12px;color:var(--muted);margin-top:27px}.signal{background:var(--pale);border:1px solid #dce5fe;border-radius:8px;overflow:hidden}.signal-head{display:flex;justify-content:space-between;align-items:center;padding:22px 25px;border-bottom:1px solid #dce5fe;font:12px var(--mono);letter-spacing:1px}.signal-head span:last-child{color:var(--blue)}.signal-body{padding:18px 24px 22px}.diagram{min-height:255px}.diagram[hidden]{display:none}.signal-caption{display:flex;justify-content:space-between;gap:16px;align-items:baseline;margin-top:14px}.signal-caption strong{font-size:19px;letter-spacing:-.6px}.signal-caption small{font-size:12px;color:var(--muted)}.view-buttons{display:flex;gap:5px;padding:0 24px 22px}.view-buttons button{background:transparent;color:var(--muted);font-size:14px;border:1px solid #d2dcf4;padding:7px 12px;border-radius:4px;flex:1}.view-buttons button[aria-pressed=true]{color:#fff;background:var(--blue);border-color:var(--blue)}.signal-foot{font-size:12px;color:var(--muted);padding:12px 24px;background:white;border-top:1px solid #dce5fe}.hero-strip{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--line);margin-top:67px;padding-top:23px;gap:32px}.hero-strip div{display:flex;align-items:center;gap:15px}.hero-strip span{font:12px var(--mono);color:var(--blue)}.hero-strip p{font-size:14px;color:var(--muted);margin:0}.hero-strip b{display:block;color:var(--ink);font-size:15px;font-weight:650}
+    .section{padding:98px 0;border-top:1px solid var(--line)}.section-top{display:flex;align-items:baseline;justify-content:space-between;gap:32px;margin-bottom:40px}.section h2{font-size:clamp(29px,3.15vw,43px);letter-spacing:-1.8px;line-height:1.4;margin:17px 0 0;font-weight:720}.section-intro{max-width:380px;color:var(--muted);margin:0;font-size:16px}.purpose{display:grid;grid-template-columns:1fr 1fr;gap:80px}.purpose blockquote{font-size:31px;line-height:1.7;letter-spacing:-1.2px;margin:20px 0 0}.purpose blockquote span{color:var(--blue)}.purpose-content p{margin:0 0 20px;color:var(--muted)}.purpose-content strong{color:var(--ink)}.mini-flow{display:flex;gap:15px;align-items:center;font:14px var(--mono);margin-top:28px;color:var(--blue);flex-wrap:wrap}.mini-flow i{font-style:normal;color:#8495b3}
+    .flow-section{background:#f6f8fc}.steps{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #cfd7e6;border-left:1px solid #cfd7e6}.step{padding:28px 30px 30px;border-right:1px solid #cfd7e6;border-bottom:1px solid #cfd7e6;background:rgba(255,255,255,.65)}.step-no{color:var(--blue);font:13px var(--mono);display:flex;justify-content:space-between}.step-no span{font-size:20px;line-height:1}.step h3{font-size:21px;margin:17px 0 9px;letter-spacing:-.7px}.step p{color:var(--muted);font-size:15px;line-height:1.85;margin:0}.step small{display:block;font:12px/1.6 var(--mono);color:var(--blue);margin-top:20px}.flow-callout{display:flex;align-items:center;justify-content:space-between;gap:28px;margin-top:25px;padding:18px 0}.flow-callout p{margin:0;font-size:14px;color:var(--muted)}.flow-callout strong{color:var(--ink)}.flow-callout .text-link{flex-shrink:0}
+    .research-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:66px;align-items:start}.reference-panel{background:var(--pale);padding:32px;border-radius:6px}.reference-panel h3{font:500 34px/1.3 Arial,sans-serif;letter-spacing:-1px;margin:12px 0}.reference-panel>p{font-size:15px;color:var(--muted)}.reference-panel svg{margin:18px 0}.legend{font-size:12px;color:var(--muted);display:flex;gap:20px;flex-wrap:wrap}.legend span{display:flex;align-items:center;gap:7px}.legend i{width:7px;height:7px;background:var(--blue);border-radius:50%;display:inline-block}.legend .outlined{width:9px;height:9px;background:white;border:2px solid var(--ink)}.metrics{margin:0}.metric{padding:0 0 23px;margin-bottom:23px;border-bottom:1px solid var(--line)}.metric:last-child{margin-bottom:0}.metric dt{font-weight:700;font-size:19px}.metric dt small{display:block;font:12px/1.5 var(--mono);letter-spacing:.3px;color:var(--blue);margin-bottom:7px}.metric dd{font-size:15px;color:var(--muted);margin:8px 0 0}.data-note{margin:26px 0 0;font-size:13px;color:var(--muted)}.source-link{font-size:13px;color:var(--blue)}
+    .records{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;margin-top:72px;padding-top:42px;border-top:1px solid var(--line)}.records h3{font-size:25px;line-height:1.5;letter-spacing:-1px;margin:0 0 15px}.records p{font-size:15px;color:var(--muted);margin:0}.record-rows{list-style:none;padding:0;margin:0}.record-rows li{display:grid;grid-template-columns:120px 1fr;gap:18px;font-size:14px;padding:15px 0;border-bottom:1px solid var(--line)}.record-rows li:first-child{padding-top:0}.record-rows b{font-weight:650}.record-rows span{color:var(--muted)}
+    .architecture{background:var(--blue);color:#fff}.architecture .eyebrow{color:#d4e0ff}.architecture .section-intro{color:#e0e8ff}.architecture-diagram{display:grid;grid-template-columns:1fr 42px 1.35fr 42px 1fr;align-items:stretch;margin-top:43px}.arch-node{padding:26px 24px;border:1px solid #829ff5;min-width:0}.arch-node small{font:12px var(--mono);color:#d4e0ff}.arch-node h3{font-size:24px;margin:13px 0 8px;letter-spacing:-.6px}.arch-node p{font-size:14px;color:#e0e8ff;margin:0}.arch-arrow{display:flex;align-items:center;justify-content:center;color:#c5d6ff;font-size:23px}.arch-node.primary{background:#fff;color:var(--ink);border-color:#fff}.arch-node.primary small{color:var(--blue)}.arch-node.primary p{color:var(--muted)}.tech-line{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:37px}.tech-line div{border-top:1px solid #7193f3;padding-top:19px}.tech-line b{display:block;font-size:14px;margin-bottom:6px}.tech-line p{font-size:13px;color:#e0e8ff;margin:0}.arch-note{font-size:12px;color:#e0e8ff;margin-top:28px}
+    .team-list{border-top:1px solid var(--ink)}.member{display:grid;grid-template-columns:75px 180px 1fr;gap:22px;align-items:start;padding:27px 0;border-bottom:1px solid var(--line)}.member-index{font:13px var(--mono);color:var(--blue);padding-top:8px}.member h3{margin:0;font-size:23px;letter-spacing:-.7px}.member .role-label{font-size:12px;color:var(--muted);display:block;margin-top:5px}.member p{margin:1px 0 0;font-size:15px;color:var(--muted);line-height:1.9}.member .role{color:var(--ink);font-size:14px;font-weight:650;display:block;margin-bottom:5px}.team-caption{font-size:13px;color:var(--muted);margin:22px 0 0}
+    .status-area{background:#f6f8fc}.status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}.status-col{border-top:2px solid var(--blue);padding-top:22px}.status-col:nth-child(2){border-color:#8798bc}.status-col:nth-child(3){border-color:#bdc8dd}.status-col small{font:12px var(--mono);color:var(--muted)}.status-col h3{font-size:21px;margin:8px 0 18px}.status-col ul{padding:0;list-style:none;margin:0}.status-col li{padding:11px 0;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}.status-note{font-size:12px;color:var(--muted);margin:27px 0 0}.notice{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:62px;padding-top:47px;border-top:1px solid #cbd4e4}.notice h3{font-size:26px;line-height:1.5;letter-spacing:-.9px;margin:12px 0 20px}.notice p{color:var(--muted);font-size:14px}.notice-facts{margin:0;list-style:none;padding:0}.notice-facts li{padding:0 0 20px;margin-bottom:20px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted)}.notice-facts strong{color:var(--ink);display:block;margin-bottom:6px;font-size:16px}
+    .faq-layout{display:grid;grid-template-columns:.72fr 1.28fr;gap:85px}.faq-layout h2{font-size:34px}.faq-list details{border-bottom:1px solid var(--line);padding:20px 0}.faq-list details:first-child{border-top:1px solid var(--line)}.faq-list summary{font-size:17px;font-weight:600;cursor:pointer;list-style:none;display:flex;gap:20px;align-items:center;justify-content:space-between}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary:after{content:'+';font:25px Arial;color:var(--blue);flex-shrink:0}.faq-list details[open] summary:after{content:'−'}.faq-list p{color:var(--muted);font-size:15px;margin:16px 30px 0 0}.footer{background:#162441;color:#fff;padding:52px 0 27px}.footer-top{display:flex;justify-content:space-between;align-items:start;gap:30px;padding-bottom:38px}.footer-wordmark{font:700 clamp(52px,8vw,102px)/1 Arial;letter-spacing:-5px}.footer-top p{font-size:14px;color:#c4cfe3}.footer-links{display:flex;flex-direction:column;gap:12px;font-size:14px}.footer-bottom{display:flex;gap:18px;justify-content:space-between;border-top:1px solid #44516a;padding-top:21px;font:12px/1.7 var(--mono);color:#c4cfe3}
+    @media(min-width:1500px){.wrap{max-width:1360px}.hero h1{font-size:70px}}
+    @media(max-width:1000px){.wrap{padding:0 30px}.hero-grid{gap:30px}.hero h1{font-size:46px;letter-spacing:-2.5px}.navlinks{gap:17px}.hero{padding-top:56px}.signal-body{padding:12px 18px 18px}.diagram{min-height:220px}.signal-caption{display:block}.signal-caption small{display:block;margin-top:5px}.purpose{gap:40px}.research-grid{gap:35px}.architecture-diagram{grid-template-columns:1fr 27px 1.1fr 27px 1fr}.arch-node{padding:21px 18px}.arch-node h3{font-size:20px}.member{grid-template-columns:45px 140px 1fr}.faq-layout{gap:40px}.section{padding:76px 0}}
+    @media(max-width:740px){html{scroll-padding-top:84px}.wrap{padding:0 22px}.nav{height:70px}.logo{font-size:24px}.menu-toggle{display:block}.navlinks{display:none;position:absolute;left:0;right:0;top:70px;background:white;border-bottom:1px solid var(--line);padding:20px 22px;flex-direction:column;align-items:flex-start;gap:18px}.navlinks.is-open{display:flex}.navlinks a{font-size:16px}.hero{padding:43px 0 35px}.hero-grid{grid-template-columns:1fr;gap:36px}.hero h1{font-size:clamp(39px,8.8vw,60px);margin-top:20px;letter-spacing:-2.3px}.hero-copy{max-width:550px;font-size:16px}.hero-note{margin-top:19px}.actions{margin-top:27px}.signal-head{padding:18px 21px}.diagram{min-height:0}.signal-caption{display:flex;align-items:center}.signal-caption strong{font-size:18px}.signal-caption small{margin:0}.hero-strip{margin-top:33px;padding-top:21px;gap:20px}.hero-strip div{display:block}.hero-strip b{font-size:14px;margin:7px 0 3px}.hero-strip p{font-size:12px}.section{padding:60px 0}.section-top{display:block;margin-bottom:30px}.section h2{font-size:31px;letter-spacing:-1.3px}.section-intro{margin-top:22px;max-width:none;font-size:15px}.purpose,.research-grid,.records,.notice,.faq-layout{grid-template-columns:1fr;gap:30px}.purpose blockquote{font-size:27px;margin-top:8px}.purpose-content p{font-size:15px}.steps{grid-template-columns:1fr 1fr}.step{padding:22px 19px}.step h3{font-size:19px}.step p{font-size:14px}.step small{font-size:12px}.flow-callout{display:block;padding-bottom:0}.flow-callout .text-link{display:inline-block;margin-top:14px}.reference-panel{padding:27px}.records{margin-top:43px;padding-top:32px}.record-rows li{grid-template-columns:94px 1fr;font-size:14px}.architecture-diagram{grid-template-columns:1fr;gap:0;margin-top:30px}.arch-arrow{height:39px;transform:rotate(90deg)}.arch-node{padding:24px}.tech-line{grid-template-columns:1fr;gap:21px}.tech-line div{padding-top:15px}.member{grid-template-columns:28px 105px 1fr;gap:12px;padding:23px 0}.member h3{font-size:21px}.member p{font-size:14px}.member .role{font-size:13px}.member .role-label{font-size:12px}.status-grid{grid-template-columns:1fr;gap:29px}.status-col{padding-top:17px}.status-col ul{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}.notice{margin-top:42px;padding-top:30px}.notice h3{font-size:25px}.notice-facts li:last-child{margin-bottom:0}.faq-layout{gap:27px}.faq-list summary{font-size:16px}.footer{padding-top:38px}.footer-wordmark{letter-spacing:-3px;font-size:68px}.footer-bottom{display:block}.footer-bottom span{display:block;margin:5px 0}.footer-top{padding-bottom:26px}.footer-links{font-size:13px}}
+    @media(max-width:400px){.wrap{padding:0 18px}.hero h1{font-size:37px}.hero-strip{gap:10px}.member{grid-template-columns:25px 1fr}.member p{grid-column:2}.signal-caption{display:block}.signal-caption small{margin-top:5px}.step{padding:20px 15px}.steps{grid-template-columns:1fr}.status-col ul{grid-template-columns:1fr}.footer-top{flex-direction:column}.footer-links{flex-direction:row;flex-wrap:wrap}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+    @media print{.topbar,.actions,.view-buttons,.menu-toggle{display:none}.section,.hero{padding:30px 0}.wrap{max-width:none;padding:0}.hero-grid,.research-grid,.purpose{gap:25px}.architecture{background:white;color:var(--ink)}.architecture *{color:var(--ink)!important}.arch-node{border:1px solid #999}.footer{background:white;color:var(--ink)}details>*{display:block!important}a{color:inherit}}
 
-    *{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      background:var(--paper);
-      color:var(--ink);
-      font-family:"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-      line-height:1.72;
-      word-break:keep-all;
-    }
-    a{text-decoration:none;color:inherit}
-    img{max-width:100%;display:block}
-    .wrap{width:min(var(--max),92%);margin:0 auto}
-
-    /* NAV */
-    .topbar{
-      position:sticky;top:0;z-index:1000;
-      background:rgba(247,248,244,.94);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      min-height:72px;
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      align-items:center;
-      gap:28px;
-    }
-    .brand{
-      display:flex;align-items:center;gap:10px;
-      font-weight:950;letter-spacing:.04em;font-size:20px;
-    }
-    .brand-dot{
-      width:22px;height:22px;border-radius:50%;
-      background:var(--cyan);
-      border:6px solid var(--ink);
-    }
-    .navlinks{
-      justify-self:center;
-      display:flex;gap:22px;
-      font-size:13px;font-weight:800;color:#506068;
-    }
-    .navlinks a{padding:6px 0;border-bottom:2px solid transparent}
-    .navlinks a:hover{border-color:var(--cyan);color:var(--ink)}
-    .nav-chip{
-      justify-self:end;
-      padding:9px 13px;
-      border:1px solid var(--ink);
-      font-size:12px;font-weight:900;
-      background:var(--lime);
-    }
-
-    /* HERO */
-    .hero{
-      min-height:780px;
-      display:flex;align-items:center;
-      border-bottom:1px solid var(--line);
-      position:relative;overflow:hidden;
-    }
-    .hero::before{
-      content:"";
-      position:absolute;
-      width:430px;height:430px;
-      border:1px solid rgba(20,33,39,.13);
-      border-radius:50%;
-      right:-120px;top:40px;
-      box-shadow:
-        0 0 0 58px rgba(105,210,219,.09),
-        0 0 0 116px rgba(167,224,193,.06);
-    }
-    .hero::after{
-      content:"";
-      position:absolute;left:0;right:0;bottom:0;height:9px;
-      background:linear-gradient(90deg,var(--cyan) 0 28%,var(--lime) 28% 54%,var(--mint) 54% 76%,var(--peach) 76% 100%);
-    }
-    .hero-grid{
-      position:relative;z-index:2;
-      display:grid;grid-template-columns:1.08fr .92fr;
-      gap:70px;align-items:center;
-    }
-    .overline{
-      display:flex;align-items:center;gap:12px;
-      font-size:12px;font-weight:900;letter-spacing:.16em;
-      color:var(--blue);text-transform:uppercase;
-      margin-bottom:22px;
-    }
-    .overline::before{
-      content:"";width:42px;height:4px;background:var(--cyan);
-    }
-    .hero h1{
-      font-size:clamp(54px,7.6vw,94px);
-      line-height:.98;letter-spacing:-.055em;
-      max-width:780px;
-    }
-    .hero h1 .mark{
-      position:relative;display:inline-block;
-    }
-    .hero h1 .mark::after{
-      content:"";
-      position:absolute;left:0;right:0;bottom:3px;height:18px;
-      background:var(--lime);z-index:-1;
-    }
-    .hero-copy{
-      margin-top:28px;
-      max-width:680px;
-      font-size:18px;
-      color:#53636a;
-    }
-    .hero-copy strong{color:var(--ink)}
-    .hero-meta{
-      margin-top:24px;
-      display:flex;gap:10px;flex-wrap:wrap;
-    }
-    .hero-meta span{
-      padding:7px 10px;
-      border:1px solid #bac8c5;
-      background:#fff;
-      font-size:11px;font-weight:850;
-    }
-    .hero-actions{
-      margin-top:30px;
-      display:flex;gap:10px;flex-wrap:wrap;
-    }
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      min-height:48px;padding:0 20px;
-      border:1px solid var(--ink);
-      font-size:13px;font-weight:900;
-      transition:.2s ease;
-    }
-    .btn.primary{background:var(--ink);color:#fff}
-    .btn.primary:hover{background:var(--blue)}
-    .btn.alt{background:#fff}
-    .btn.alt:hover{background:var(--lime)}
-
-    /* HERO SIGNAL PANEL */
-    .signal-board{
-      border:1px solid var(--ink);
-      background:#fff;
-      box-shadow:14px 14px 0 var(--mint);
-    }
-    .signal-head{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:15px 18px;border-bottom:1px solid var(--ink);
-      font-size:12px;font-weight:900;
-    }
-    .signal-screen{
-      padding:22px;
-      background:#18343c;
-      color:white;
-    }
-    .signal-label{
-      display:flex;justify-content:space-between;
-      font-size:10px;color:#a8c2c8;letter-spacing:.08em;text-transform:uppercase
-    }
-    .waveform{
-      margin:20px 0 22px;
-      height:150px;
-      display:flex;align-items:center;gap:5px;
-      border-top:1px solid rgba(255,255,255,.12);
-      border-bottom:1px solid rgba(255,255,255,.12);
-      padding:20px 0;
-    }
-    .waveform i{
-      flex:1;max-width:9px;background:#84e5e9;display:block;
-      border-radius:1px;animation:wave 1.4s ease-in-out infinite;
-    }
-    .waveform i:nth-child(1){height:22%}
-    .waveform i:nth-child(2){height:52%;animation-delay:.08s}
-    .waveform i:nth-child(3){height:78%;animation-delay:.16s}
-    .waveform i:nth-child(4){height:38%;animation-delay:.24s}
-    .waveform i:nth-child(5){height:88%;animation-delay:.32s}
-    .waveform i:nth-child(6){height:64%;animation-delay:.4s}
-    .waveform i:nth-child(7){height:44%;animation-delay:.48s}
-    .waveform i:nth-child(8){height:73%;animation-delay:.56s}
-    .waveform i:nth-child(9){height:30%;animation-delay:.64s}
-    @keyframes wave{0%,100%{transform:scaleY(.72)}50%{transform:scaleY(1.06)}}
-    .signal-metrics{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      border-top:1px solid rgba(255,255,255,.14);
-    }
-    .sig-metric{
-      padding:15px 10px;border-right:1px solid rgba(255,255,255,.14);
-    }
-    .sig-metric:last-child{border-right:0}
-    .sig-metric small{display:block;color:#9eb9bf;font-size:9px}
-    .sig-metric b{font-size:20px;color:#fff}
-    .signal-foot{
-      display:grid;grid-template-columns:1fr 1fr;
-      border-top:1px solid var(--ink);
-    }
-    .signal-foot div{
-      padding:14px 16px;font-size:11px;border-right:1px solid var(--ink)
-    }
-    .signal-foot div:last-child{border-right:0}
-    .signal-foot b{display:block;font-size:13px}
-
-    /* CHAPTER SYSTEM */
-    .chapter{padding:108px 0;border-bottom:1px solid var(--line)}
-    .chapter:nth-of-type(even){background:#fbfcf9}
-    .chapter-head{
-      display:grid;grid-template-columns:130px 1fr;
-      gap:28px;align-items:start;margin-bottom:56px;
-    }
-    .chapter-no{
-      font-family:Georgia,serif;
-      font-size:56px;line-height:1;color:var(--blue);
-    }
-    .chapter-title{
-      border-left:1px solid var(--line);
-      padding-left:28px;
-    }
-    .chapter-title small{
-      display:block;font-size:11px;font-weight:900;letter-spacing:.18em;
-      text-transform:uppercase;color:#6b7c83;margin-bottom:7px
-    }
-    .chapter-title h2{
-      font-size:clamp(32px,4vw,48px);
-      line-height:1.18;letter-spacing:-.035em;margin-bottom:14px
-    }
-    .chapter-title p{max-width:760px;color:var(--sub)}
-
-    /* WHY */
-    .problem-layout{
-      display:grid;grid-template-columns:.92fr 1.08fr;gap:54px;align-items:start
-    }
-    .big-question{
-      font-size:clamp(29px,4vw,44px);line-height:1.25;font-weight:900;
-      padding:0 0 26px;border-bottom:5px solid var(--lime);
-    }
-    .big-question span{color:var(--blue)}
-    .problem-text{margin-top:20px;color:var(--sub);font-size:15px}
-    .problem-stack{display:grid;border-top:1px solid var(--ink)}
-    .problem-row{
-      display:grid;grid-template-columns:70px 1fr;
-      gap:18px;padding:20px 0;border-bottom:1px solid var(--line);
-    }
-    .problem-icon{
-      width:54px;height:54px;display:grid;place-items:center;
-      background:var(--soft);font-size:24px;border:1px solid #cbd7d4
-    }
-    .problem-row b{font-size:17px}
-    .problem-row p{font-size:13px;color:var(--sub);margin-top:4px}
-
-    /* STATS STRIP */
-    .stats-strip{
-      margin-top:52px;
-      display:grid;grid-template-columns:repeat(3,1fr);
-      border:1px solid var(--ink);
-      background:#fff;
-    }
-    .stat{
-      padding:28px;border-right:1px solid var(--ink);
-      position:relative;
-    }
-    .stat:last-child{border-right:0}
-    .stat .value{
-      font-family:Georgia,serif;font-size:50px;line-height:1;color:var(--blue);
-      margin:10px 0;
-    }
-    .stat small{font-size:10px;letter-spacing:.12em;color:#728187;text-transform:uppercase}
-    .stat p{font-size:12px;color:var(--sub)}
-
-    /* DIFFERENCE */
-    .difference-grid{
-      display:grid;grid-template-columns:1fr 1fr;gap:0;
-      border:1px solid var(--ink);background:#fff;
-    }
-    .difference-main{
-      padding:38px;background:var(--dark);color:#fff;
-      min-height:400px;display:flex;flex-direction:column;justify-content:space-between
-    }
-    .difference-main .mini{color:#b7d4da;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-    .difference-main h3{font-size:39px;line-height:1.12;margin-top:14px}
-    .difference-main p{color:#c3d4d8;font-size:14px;margin-top:18px}
-    .difference-main .route{font-family:monospace;color:var(--lime);font-size:13px}
-    .difference-list{
-      display:grid;grid-template-columns:1fr 1fr;
-    }
-    .diff-item{
-      padding:26px;border-left:1px solid var(--ink);border-bottom:1px solid var(--ink)
-    }
-    .diff-item:nth-last-child(-n+2){border-bottom:0}
-    .diff-item .emoji{font-size:27px;margin-bottom:14px}
-    .diff-item b{font-size:16px}
-    .diff-item p{font-size:12.5px;color:var(--sub);margin-top:6px}
-
-    /* FLOW */
-    .flow{
-      display:grid;grid-template-columns:repeat(6,1fr);
-      border-top:1px solid var(--ink);border-left:1px solid var(--ink);
-    }
-    .flow-step{
-      min-height:260px;padding:22px 17px;
-      border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);
-      background:#fff;position:relative;
-    }
-    .flow-step:nth-child(2n){background:#f1f6f3}
-    .step-no{font-family:Georgia,serif;font-size:34px;color:var(--blue)}
-    .step-icon{font-size:27px;margin:30px 0 13px}
-    .flow-step h3{font-size:14px;margin-bottom:7px}
-    .flow-step p{font-size:11.5px;color:var(--sub)}
-    .pipeline-note{
-      margin-top:24px;padding:22px 24px;
-      border-left:6px solid var(--cyan);
-      background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-      color:#52656c;font-size:13px;
-    }
-
-    /* DATA */
-    .data-grid{display:grid;grid-template-columns:1fr 1fr;gap:34px}
-    .data-block{
-      border-top:5px solid var(--cyan);
-      background:#fff;border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line);
-    }
-    .data-block.alt{border-top-color:var(--mint)}
-    .data-title{padding:22px 24px;border-bottom:1px solid var(--line)}
-    .data-title h3{font-size:22px}.data-title p{font-size:13px;color:var(--sub);margin-top:6px}
-    .data-list{padding:0 24px}
-    .data-row{
-      display:grid;grid-template-columns:42px 1fr;gap:12px;padding:17px 0;
-      border-bottom:1px dashed #cbd6d3;
-    }
-    .data-row:last-child{border-bottom:0}
-    .data-index{
-      font-family:Georgia,serif;color:var(--blue);font-size:20px
-    }
-    .data-row b{font-size:14px}.data-row p{font-size:12px;color:var(--sub)}
-    .data-warning{
-      margin-top:28px;
-      padding:18px 20px;border:1px solid #d8c89a;background:#fff9df;
-      font-size:12px;color:#806729;
-    }
-
-    /* APP MOCKUP */
-    .app-layout{
-      display:grid;grid-template-columns:.72fr 1.28fr;gap:48px;align-items:center
-    }
-    .app-intro h3{font-size:36px;line-height:1.2}
-    .app-intro p{color:var(--sub);margin-top:16px}
-    .app-key{
-      margin-top:24px;display:grid;gap:10px
-    }
-    .app-key div{
-      padding:13px 14px;background:#fff;border-left:4px solid var(--cyan);
-      font-size:13px
-    }
-    .phones{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:14px
-    }
-    .phone-card{
-      border:1px solid var(--ink);background:#fff;padding:8px;
-      box-shadow:7px 7px 0 #dce9e4;
-    }
-    .phone-screen{
-      min-height:430px;background:#f7faf9;padding:18px;
-      display:flex;flex-direction:column;border:1px solid #d4dfdc
-    }
-    .phone-top{display:flex;justify-content:space-between;font-size:9px;color:#718087}
-    .phone-screen h4{font-size:18px;margin-top:26px}
-    .phone-screen p{font-size:11px;color:var(--sub);margin-top:7px}
-    .record-circle{
-      margin:auto;width:112px;height:112px;border-radius:50%;
-      display:grid;place-items:center;font-size:39px;
-      border:10px solid #d8eeee;background:var(--cyan)
-    }
-    .score-big{
-      margin:30px auto 20px;width:140px;height:140px;border-radius:50%;
-      border:14px solid #cde5df;border-top-color:var(--blue);
-      display:grid;place-items:center;text-align:center
-    }
-    .score-big b{font-size:28px}.score-big small{font-size:9px;color:var(--sub)}
-    .mini-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .mini-metric{padding:10px;border:1px solid var(--line);background:#fff}
-    .mini-metric small{display:block;font-size:8px;color:var(--sub)}.mini-metric b{font-size:12px}
-    .bars{height:165px;display:flex;align-items:end;gap:8px;margin-top:24px;border-bottom:1px solid var(--line)}
-    .bars i{flex:1;background:var(--blue)}
-    .bars i:nth-child(1){height:33%}.bars i:nth-child(2){height:52%}.bars i:nth-child(3){height:44%}
-    .bars i:nth-child(4){height:70%}.bars i:nth-child(5){height:61%}.bars i:nth-child(6){height:77%}
-    .phone-btn{margin-top:auto;padding:11px;text-align:center;background:var(--ink);color:#fff;font-size:11px;font-weight:900}
-
-    /* METRICS */
-    .metric-table{
-      border:1px solid var(--ink);background:#fff
-    }
-    .metric-row{
-      display:grid;grid-template-columns:220px 140px 1fr;
-      border-bottom:1px solid var(--ink)
-    }
-    .metric-row:last-child{border-bottom:0}
-    .metric-row > div{padding:19px;border-right:1px solid var(--ink)}
-    .metric-row > div:last-child{border-right:0}
-    .metric-name{font-weight:900}.metric-value{font-size:24px;font-family:Georgia,serif;color:var(--blue)}
-    .metric-desc{font-size:12px;color:var(--sub)}
-    .metric-head{background:var(--soft);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-
-    /* TECH / ARCH */
-    .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .tech{
-      padding:22px;background:#fff;border-top:4px solid var(--cyan);
-      border-left:1px solid var(--line);border-right:1px solid var(--line);border-bottom:1px solid var(--line)
-    }
-    .tech:nth-child(2n){border-top-color:var(--mint)}
-    .tech h3{font-size:17px;margin-bottom:12px}
-    .badges{display:flex;flex-wrap:wrap;gap:7px}
-    .badges span{padding:6px 9px;background:var(--soft);font-size:10px;font-weight:850;border:1px solid #d4dfdc}
-    .tech p{font-size:12px;color:var(--sub);margin-top:12px}
-
-    .architecture{
-      margin-top:34px;border:1px solid var(--ink);background:#fff;padding:30px
-    }
-    .arch-line{
-      display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap
-    }
-    .arch-box{
-      min-width:145px;text-align:center;padding:16px;border:1px solid var(--ink);background:#f8fbfa
-    }
-    .arch-box b{display:block}.arch-box small{font-size:9px;color:var(--sub)}
-    .arch-arrow{font-weight:900;color:var(--blue)}
-
-    /* USECASE */
-    .use-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--ink)}
-    .use-item{padding:26px;border-right:1px solid var(--ink);background:#fff;min-height:250px}
-    .use-item:last-child{border-right:0}
-    .use-item .emoji{font-size:30px}
-    .use-item h3{font-size:16px;margin:18px 0 8px}
-    .use-item p{font-size:12px;color:var(--sub)}
-    .use-item small{display:block;margin-top:20px;padding-top:12px;border-top:1px dashed #cbd6d3;font-size:9.5px;color:#718087}
-
-    /* NOTICE */
-    .notice{
-      border:1px solid var(--ink);background:#fff
-    }
-    .notice-main{
-      display:grid;grid-template-columns:90px 1fr;
-      border-bottom:1px solid var(--ink)
-    }
-    .notice-icon{display:grid;place-items:center;font-size:32px;background:var(--lime);border-right:1px solid var(--ink)}
-    .notice-copy{padding:24px}
-    .notice-copy h3{font-size:20px}.notice-copy p{font-size:13px;color:var(--sub);margin-top:7px}
-    .notice-grid{display:grid;grid-template-columns:repeat(2,1fr)}
-    .notice-item{padding:23px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)}
-    .notice-item:nth-child(2n){border-right:0}
-    .notice-item:nth-last-child(-n+2){border-bottom:0}
-    .notice-item h4{font-size:15px;margin:8px 0}.notice-item p{font-size:12px;color:var(--sub)}
-    .warning-line{
-      margin-top:18px;padding:16px 18px;border-left:5px solid var(--peach);background:#fff2e9;
-      font-size:12px;color:#81553d
-    }
-
-    /* STATUS */
-    .status-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px}
-    .status-list{border-top:1px solid var(--ink)}
-    .status-row{
-      display:grid;grid-template-columns:48px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)
-    }
-    .status-check{
-      width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
-      background:var(--mint);font-weight:900
-    }
-    .status-row.pending .status-check{background:#f6d7b8}
-    .status-row b{font-size:14px}.status-row p{font-size:12px;color:var(--sub)}
-    .status-side{
-      background:var(--dark);color:#fff;padding:28px;
-    }
-    .status-side small{letter-spacing:.12em;text-transform:uppercase;color:#9dc7cf;font-size:10px}
-    .status-side strong{display:block;font-size:46px;margin:8px 0 10px;font-family:Georgia,serif}
-    .status-side p{color:#c1d2d6;font-size:13px}
-
-    /* TEAM */
-    .leader{
-      display:grid;grid-template-columns:220px 1fr;
-      border:1px solid var(--ink);background:#fff;margin-bottom:22px
-    }
-    .leader-left{padding:28px;background:var(--mint);border-right:1px solid var(--ink)}
-    .member-role{font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:900}
-    .member-name{font-size:28px;font-weight:950;margin:7px 0}
-    .leader-right{padding:28px}
-    .role-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:16px}
-    .role-tags span{padding:6px 9px;border:1px solid #becac7;background:#f6faf8;font-size:10px;font-weight:850}
-    .member-desc{font-size:13px;color:var(--sub)}
-    .team-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--ink)}
-    .member{
-      padding:25px;background:#fff;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink)
-    }
-    .member:nth-child(2n){background:#f7faf9}
-    .member-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-    .member-emoji{font-size:29px}
-    .member h3{font-size:22px}.member small{font-size:10px;color:var(--blue);font-weight:850}
-    .member .role-tags{margin-top:15px}
-
-    .collab-line{
-      margin-top:28px;
-      display:grid;grid-template-columns:repeat(5,1fr);
-      border:1px solid var(--ink);background:#fff
-    }
-    .collab-step{padding:17px;text-align:center;border-right:1px solid var(--ink);font-size:11px}
-    .collab-step:last-child{border-right:0}
-    .collab-step b{display:block;font-size:13px;margin-top:5px}
-
-    /* ROADMAP */
-    .roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .road{
-      background:#fff;border:1px solid var(--ink);padding:24px;
-      box-shadow:6px 6px 0 #dfe8e5
-    }
-    .road h3{font-size:17px;margin-bottom:14px}
-    .road ul{list-style:none;display:grid;gap:8px}
-    .road li{font-size:12px;color:var(--sub);padding-left:14px;position:relative}
-    .road li::before{content:"—";position:absolute;left:0;color:var(--blue)}
-
-    /* FAQ */
-    .faq{max-width:920px;margin:0 auto;border-top:1px solid var(--ink)}
-    details{border-bottom:1px solid var(--ink);background:#fff}
-    summary{
-      cursor:pointer;list-style:none;padding:18px 8px;
-      font-size:14px;font-weight:900;display:flex;justify-content:space-between;gap:12px
-    }
-    summary::-webkit-details-marker{display:none}
-    summary::after{content:"+";font-size:20px;color:var(--blue)}
-    details[open] summary::after{content:"–"}
-    details p{padding:0 8px 18px;font-size:12px;color:var(--sub)}
-
-    footer{
-      background:var(--ink);color:#aebfc4;padding:44px 0;
-      border-top:8px solid var(--cyan)
-    }
-    .footer-grid{display:flex;justify-content:space-between;gap:28px;align-items:flex-end}
-    .footer-brand{font-size:24px;color:#fff;font-weight:950}
-    .footer-text{max-width:760px;font-size:11px;margin-top:7px}
-    .footer-copy{text-align:right;font-size:10px}
-
-    /* REVEAL */
-    .reveal{opacity:0;transform:translateY(16px);transition:.6s ease}
-    .reveal.show{opacity:1;transform:none}
-
-    @media(max-width:1050px){
-      .navlinks{display:none}
-      .hero-grid,.problem-layout,.app-layout,.status-grid{grid-template-columns:1fr}
-      .hero{min-height:auto;padding:96px 0}
-      .signal-board{max-width:690px}
-      .flow{grid-template-columns:repeat(3,1fr)}
-      .tech-grid{grid-template-columns:repeat(2,1fr)}
-      .use-grid{grid-template-columns:repeat(2,1fr)}
-      .use-item:nth-child(2){border-right:0}
-      .use-item:nth-child(-n+2){border-bottom:1px solid var(--ink)}
-      .data-grid{grid-template-columns:1fr}
-      .stats-strip{grid-template-columns:1fr}
-      .stat{border-right:0;border-bottom:1px solid var(--ink)}
-      .stat:last-child{border-bottom:0}
-      .leader{grid-template-columns:1fr}
-      .leader-left{border-right:0;border-bottom:1px solid var(--ink)}
-    }
-
-    @media(max-width:760px){
-      .chapter{padding:78px 0}
-      .chapter-head{grid-template-columns:1fr;gap:14px}
-      .chapter-title{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:18px}
-      .chapter-no{font-size:42px}
-      .flow,.tech-grid,.roadmap,.team-grid,.collab-line,.phones{grid-template-columns:1fr}
-      .flow-step,.member,.collab-step{border-right:1px solid var(--ink)}
-      .difference-grid{grid-template-columns:1fr}
-      .difference-list{grid-template-columns:1fr}
-      .diff-item{border-left:0;border-bottom:1px solid var(--ink)!important}
-      .diff-item:last-child{border-bottom:0!important}
-      .use-grid{grid-template-columns:1fr}
-      .use-item{border-right:0;border-bottom:1px solid var(--ink)!important}
-      .use-item:last-child{border-bottom:0!important}
-      .notice-main{grid-template-columns:1fr}
-      .notice-icon{min-height:70px;border-right:0;border-bottom:1px solid var(--ink)}
-      .notice-grid{grid-template-columns:1fr}
-      .notice-item{border-right:0!important;border-bottom:1px solid var(--ink)!important}
-      .notice-item:last-child{border-bottom:0!important}
-      .metric-row{grid-template-columns:1fr}
-      .metric-row>div{border-right:0;border-bottom:1px solid var(--ink)}
-      .metric-row>div:last-child{border-bottom:0}
-      .signal-metrics{grid-template-columns:1fr}
-      .sig-metric{border-right:0;border-bottom:1px solid rgba(255,255,255,.14)}
-      .sig-metric:last-child{border-bottom:0}
-      .footer-grid{flex-direction:column;align-items:flex-start}
-      .footer-copy{text-align:left}
-      .nav-chip{display:none}
-    }
+    /* Screens and development records supplied by the ANIMA team. */
+    .source-note{font-size:12px;color:var(--muted);margin:22px 0 0;line-height:1.8}
+    .experience{background:#fafbfe}.screen-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}.screen-card{margin:0;min-width:0}.screen-visual{display:flex;align-items:center;justify-content:center;height:535px;background:#fff1dc;border:1px solid #f0e1cb;border-radius:8px;padding:21px;text-decoration:none}.screen-visual img{display:block;max-width:100%;width:auto;height:auto;max-height:491px;object-fit:contain;border-radius:5px}.screen-card figcaption{padding:20px 0 0}.screen-card figcaption small{font:12px var(--mono);color:var(--blue)}.screen-card h3{margin:8px 0;font-size:21px;letter-spacing:-.7px}.screen-card p{margin:0;color:var(--muted);font-size:15px;line-height:1.85}.image-hint{font-size:12px;color:var(--blue);display:block;margin-top:12px}
+    .report-feature{display:grid;grid-template-columns:1fr 1fr;gap:65px;align-items:center;margin-top:60px;padding-top:45px;border-top:1px solid var(--line)}.report-feature h3{font-size:29px;letter-spacing:-1px;line-height:1.5;margin:15px 0}.report-feature p{color:var(--muted);font-size:15px}.report-feature ul{padding-left:20px;font-size:15px;color:var(--muted);line-height:2}.report-preview{margin:0}.report-preview>a{display:block;background:#eef1f7;border:1px solid var(--line);padding:20px}.report-preview img{display:block;max-width:100%;width:auto;height:auto;max-height:540px;margin:auto}.report-preview figcaption{color:var(--muted);font-size:12px;margin-top:12px}.screen-note{background:#eef3fc;border-left:3px solid #7998ee;padding:17px 20px;font-size:13px;color:#485872;margin-top:30px}
+    .phase-strip{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#cfd7e6;border:1px solid #cfd7e6;margin-bottom:23px}.phase-strip>div{background:#edf2ff;padding:19px 23px}.phase-strip small{font:12px var(--mono);color:var(--blue)}.phase-strip strong{display:block;font-size:17px;margin-top:5px}.phase-strip p{font-size:14px;color:var(--muted);margin:4px 0 0}
+    .lessons{border-top:1px solid var(--ink)}.lesson{display:grid;grid-template-columns:190px 1fr 1fr;gap:32px;padding:30px 0;border-bottom:1px solid var(--line)}.lesson>div:first-child small{font:12px var(--mono);color:var(--blue)}.lesson h3{font-size:23px;letter-spacing:-.8px;line-height:1.5;margin:9px 0}.lesson-label{font-size:13px;font-weight:650;color:var(--blue);display:block;margin-bottom:7px}.lesson p{font-size:15px;color:var(--muted);margin:0;line-height:1.85}
+    .timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin-top:40px}.milestone{position:relative;border-top:2px solid #c5d3f5;padding:25px 0 0}.milestone:before{content:'';position:absolute;top:-6px;left:0;width:10px;height:10px;border-radius:50%;background:var(--blue)}.milestone time{font:13px var(--mono);color:var(--blue)}.milestone h3{font-size:18px;margin:13px 0 10px}.milestone p{font-size:14px;color:var(--muted);margin:0;line-height:1.85}.roadmap{margin-top:57px;padding-top:34px;border-top:1px solid var(--line)}.roadmap>h3{font-size:25px;margin:0 0 22px;letter-spacing:-.8px}.roadmap-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.roadmap-item{padding:24px;background:white;border:1px solid var(--line)}.roadmap-item small{font:12px var(--mono);color:var(--blue)}.roadmap-item h4{font-size:20px;margin:10px 0}.roadmap-item p{font-size:15px;color:var(--muted);margin:0}.roadmap-item ul{padding-left:18px;color:var(--muted);font-size:14px;line-height:1.9;margin-bottom:0}.roadmap-item .plan-note{font-size:12px;padding-top:15px;border-top:1px solid var(--line);margin-top:18px}
+    @media(max-width:1000px){.screen-grid{gap:20px}.screen-visual{height:465px;padding:15px}.screen-visual img{max-height:435px}.lesson{grid-template-columns:150px 1fr 1fr;gap:24px}.report-feature{gap:35px}.timeline{gap:18px}}
+    @media(max-width:740px){.screen-grid{grid-template-columns:1fr;gap:36px}.screen-card{max-width:440px;width:100%;margin:auto}.screen-visual{height:auto;min-height:0;padding:25px}.screen-visual img{max-height:570px;max-width:100%}.screen-card p{font-size:15px}.report-feature{grid-template-columns:1fr;gap:25px;margin-top:42px;padding-top:33px}.report-feature h3{font-size:26px}.report-preview img{max-height:620px}.phase-strip{grid-template-columns:1fr}.lesson{grid-template-columns:1fr;gap:16px;padding:26px 0}.lesson h3{margin-bottom:0;font-size:22px}.timeline{grid-template-columns:1fr 1fr;gap:32px 23px}.roadmap-grid{grid-template-columns:1fr}.roadmap{margin-top:38px}.roadmap-item{padding:23px}.source-note{font-size:12px}}
+    @media(max-width:400px){.timeline{grid-template-columns:1fr}.screen-visual{padding:19px}.phase-strip>div{padding:19px}}
   </style>
 </head>
-
-<body>
-  <header class="topbar">
-    <div class="wrap nav">
-      <a href="#top" class="brand">
-        <span class="brand-dot"></span>
-        <span>ANIMA</span>
-      </a>
-      <nav class="navlinks">
-        <a href="#why">WHY</a>
-        <a href="#flow">FLOW</a>
-        <a href="#data">DATA</a>
-        <a href="#app">APP</a>
-        <a href="#tech">TECH</a>
-        <a href="#team">TEAM</a>
-      </nav>
-      <a class="nav-chip" href="#notice">RESEARCH NOTICE</a>
+<body id="top">
+<a class="skip" href="#main">본문으로 바로가기</a>
+<header class="topbar">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="ANIMA 처음으로"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M2 17h5l4-11 7 21 5-16 4 6h3" fill="none" stroke="#2455ed" stroke-width="3" stroke-linejoin="round"/></svg>ANIMA<span style="color:var(--blue)">.</span></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="navigation">메뉴</button>
+    <nav class="navlinks" id="navigation" aria-label="주요 메뉴"><a href="#about">프로젝트</a><a href="#experience">구현 화면</a><a href="#process">분석 과정</a><a href="#progress">개발 기록</a><a href="#team">팀 소개</a><a class="nav-out" href="https://github.com/ShinCssyou/anima" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+  </div>
+</header>
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow"><span class="dot"></span> Cough acoustic research</div>
+          <h1 id="hero-title">기침의 변화를,<br><em>기록으로 읽다.</em></h1>
+          <p class="hero-copy">기침을 녹음하고, 분석 결과와 지난 기록을 한곳에서.<br>ANIMA는 음향 특징의 차이를 계산하고<br>시간에 따른 기침 패턴의 변화를 살펴보는 프로젝트입니다.</p>
+          <div class="actions"><a class="button" href="#experience">구현 화면 살펴보기 <span aria-hidden="true">↗</span></a><a class="text-link" href="#process">분석 과정 알아보기</a></div>
+          <p class="hero-note">연구·교육용 프로토타입 · 질병을 진단하는 서비스가 아닙니다.</p>
+        </div>
+        <div class="signal" aria-label="소리에서 기록으로 이어지는 설명용 시각화">
+          <div class="signal-head"><span>ANIMA / SIGNAL STUDY</span><span>01—03</span></div>
+          <div class="signal-body">
+            <div class="diagram" id="signal-view" role="img" aria-label="기침 음향을 본뜬 설명용 파형. 가로축은 시간, 세로축은 상대 진폭입니다."><svg viewBox="0 0 460 250"><g stroke="#d9e2f6" stroke-width="1"><path d="M20 30H440M20 80H440M20 130H440M20 180H440M20 230H440M20 30V230M90 30V230M160 30V230M230 30V230M300 30V230M370 30V230M440 30V230"/></g><g id="wave-bars" stroke="#2455ed" stroke-width="3" stroke-linecap="round"></g><path d="M20 130H440" stroke="#2455ed" opacity=".3"/><g fill="#5d6c86" font-size="11" font-family="Consolas,monospace"><text x="20" y="18">AMPLITUDE</text><text x="405" y="245">TIME →</text></g></svg></div>
+            <div class="diagram" id="frequency-view" hidden role="img" aria-label="시간과 주파수에 따른 신호의 크기를 색으로 표현한 설명용 스펙트로그램입니다."><svg viewBox="0 0 460 250"><text x="20" y="18" fill="#5d6c86" font-size="11" font-family="Consolas,monospace">FREQUENCY ↑</text><g id="spectrum-cells"></g><text x="405" y="245" fill="#5d6c86" font-size="11" font-family="Consolas,monospace">TIME →</text></svg></div>
+            <div class="diagram" id="history-view" hidden role="img" aria-label="여섯 번의 기록에서 음향적 차이가 달라지는 모습을 나타낸 개념 그래프. 실제 측정값이 아니며 건강 상태의 변화를 의미하지 않습니다."><svg viewBox="0 0 460 250"><g stroke="#d9e2f6"><path d="M30 50H430M30 100H430M30 150H430M30 200H430"/></g><g fill="#5d6c86" font-size="11" font-family="Consolas,monospace"><text x="30" y="25">ACOUSTIC DIFFERENCE</text><text x="30" y="227">#01</text><text x="107" y="227">#02</text><text x="184" y="227">#03</text><text x="261" y="227">#04</text><text x="338" y="227">#05</text><text x="408" y="227">#06</text></g><path d="M42 157L119 108L196 133L273 72L350 116L420 89" fill="none" stroke="#2455ed" stroke-width="3"/><g fill="white" stroke="#2455ed" stroke-width="3"><circle cx="42" cy="157" r="5"/><circle cx="119" cy="108" r="5"/><circle cx="196" cy="133" r="5"/><circle cx="273" cy="72" r="5"/><circle cx="350" cy="116" r="5"/><circle cx="420" cy="89" r="5"/></g></svg></div>
+            <div class="signal-caption" aria-live="polite"><strong id="diagram-title">01. 소리를 기록하다</strong><small id="diagram-subtitle">시간에 따른 파형</small></div>
+          </div>
+          <div class="view-buttons" role="group" aria-label="시각화 선택"><button type="button" data-view="signal" aria-controls="signal-view" aria-pressed="true">소리</button><button type="button" data-view="frequency" aria-controls="frequency-view" aria-pressed="false">주파수</button><button type="button" data-view="history" aria-controls="history-view" aria-pressed="false">기록</button></div>
+          <div class="signal-foot">설명용 시각화 · 실제 녹음이나 분석 결과가 아닙니다.</div>
+        </div>
+      </div>
+      <div class="hero-strip"><div><span>01 / RECORD</span><p><b>기침을 기록하고</b>음향과 측정 맥락을 함께</p></div><div><span>02 / COMPARE</span><p><b>소리의 특징을 비교하고</b>연구용 참조 분포를 기준으로</p></div><div><span>03 / REVIEW</span><p><b>시간의 흐름으로 살펴봅니다</b>한 번의 결과에서 누적 기록으로</p></div></div>
     </div>
-  </header>
+  </section>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <div class="wrap hero-grid">
-        <div class="reveal">
-          <div class="overline">AI Healthcare Research Project</div>
-          <h1>
-            기침을<br>
-            <span class="mark">기억이 아닌 데이터로.</span>
-          </h1>
-          <p class="hero-copy">
-            <strong>ANIMA</strong>는 사용자의 기침 음향을 분석하여
-            기침 여부, 녹음 품질, 연구용 참조 분포 대비 음향 패턴 차이를 기록하고,
-            그 변화를 시간 순서로 확인하기 위한 연구·교육 목적의 프로토타입입니다.
-          </p>
-
-          <div class="hero-meta">
-            <span>STFT / Spectrogram</span>
-            <span>2D CNN</span>
-            <span>Mahalanobis Distance</span>
-            <span>Flutter · FastAPI</span>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn primary" href="#flow">분석 흐름 보기</a>
-            <a class="btn alt" href="#team">팀 역할 보기</a>
-          </div>
-        </div>
-
-        <div class="signal-board reveal">
-          <div class="signal-head">
-            <span>ANIMA / SIGNAL REPORT</span>
-            <span>PROTOTYPE</span>
-          </div>
-
-          <div class="signal-screen">
-            <div class="signal-label">
-              <span>ACOUSTIC INPUT</span>
-              <span>16 kHz / MONO</span>
-            </div>
-
-            <div class="waveform">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-            </div>
-
-            <div class="signal-metrics">
-              <div class="sig-metric">
-                <small>COUGH CONF.</small>
-                <b>92%</b>
-              </div>
-              <div class="sig-metric">
-                <small>QUALITY</small>
-                <b>87</b>
-              </div>
-              <div class="sig-metric">
-                <small>DEVIATION</small>
-                <b>3.42</b>
-              </div>
-            </div>
-          </div>
-
-          <div class="signal-foot">
-            <div><b>Record</b>음향 데이터 저장</div>
-            <div><b>Compare</b>참조 분포와 비교</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 01 WHY -->
-    <section id="why" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">01</div>
-          <div class="chapter-title">
-            <small>Project Background</small>
-            <h2>왜 기침을 ‘기록’해야 할까요?</h2>
-            <p>
-              기침은 흔한 증상이지만 실제 변화는 기억과 주관적 표현에 의존하는 경우가 많습니다.
-              ANIMA는 반복적으로 쌓을 수 있는 음향 기록을 통해 변화 자체를 남기는 방법을 연구합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="problem-layout">
-          <div class="reveal">
-            <div class="big-question">
-              “지난 일주일 동안<br>
-              기침이 <span>얼마나 달라졌나요?</span>”
-            </div>
-            <p class="problem-text">
-              병원이나 상담 상황에서 “심해졌다”, “조금 나아졌다”라고 설명할 수는 있지만
-              복약 전후와 날짜별 변화를 같은 기준으로 비교하기는 어렵습니다.
-              ANIMA는 이 지점을 프로젝트의 출발점으로 삼습니다.
-            </p>
-          </div>
-
-          <div class="problem-stack">
-            <div class="problem-row reveal">
-              <div class="problem-icon">🧠</div>
-              <div><b>기억 의존</b><p>언제, 얼마나, 어떤 환경에서 기침했는지 정확하게 기억하기 어렵습니다.</p></div>
-            </div>
-            <div class="problem-row reveal">
-              <div class="problem-icon">📝</div>
-              <div><b>주관적 표현</b><p>같은 상태라도 사람마다 “심하다”의 기준이 달라질 수 있습니다.</p></div>
-            </div>
-            <div class="problem-row reveal">
-              <div class="problem-icon">💊</div>
-              <div><b>복약 전후 비교</b><p>약 복용 전과 후의 변화를 장기간 같은 방식으로 비교하기 어렵습니다.</p></div>
-            </div>
-            <div class="problem-row reveal">
-              <div class="problem-icon">📈</div>
-              <div><b>장기 추적 자료</b><p>며칠·몇 주·몇 달간 변화 추이를 구조화된 기록으로 남기기 어렵습니다.</p></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="stats-strip reveal">
-          <div class="stat">
-            <small>Korean Population</small>
-            <div class="value">3.48%</div>
-            <p>논문에서 인용한 KNHANES 2010–2016 분석 기준, 국내 40세 이상 성인의 만성 기침 유병률.</p>
-          </div>
-          <div class="stat">
-            <small>Clinical Experience</small>
-            <div class="value">약 75%</div>
-            <p>국내 만성 기침 환자 설문에서 두 곳 이상의 의료기관을 방문한 경험이 있다고 보고된 비율.</p>
-          </div>
-          <div class="stat">
-            <small>Unmet Need</small>
-            <div class="value">49.3%</div>
-            <p>주요 미충족 수요로 치료 효과 부족을 응답한 비율. 프로젝트의 연구 배경 설명용 수치입니다.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 DIFFERENCE -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">02</div>
-          <div class="chapter-title">
-            <small>Core Idea</small>
-            <h2>ANIMA의 핵심은 ‘탐지’보다 ‘변화 추적’입니다.</h2>
-            <p>
-              한 번의 결과를 보여주는 것보다 같은 사용자의 기침 음향 패턴을 반복적으로 측정하고
-              날짜별 변화로 남기는 데 초점을 둡니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="difference-grid reveal">
-          <div class="difference-main">
-            <div>
-              <div class="mini">ANIMA Philosophy</div>
-              <h3>Detection<br>→ Tracking</h3>
-              <p>
-                “이 소리가 기침인가?”라는 질문에서 한 단계 더 나아가
-                “이 사용자의 기침 패턴은 시간에 따라 어떻게 달라지고 있는가?”를 기록합니다.
-              </p>
-            </div>
-            <div class="route">RECORD → COMPARE → ACCUMULATE → REVIEW</div>
-          </div>
-
-          <div class="difference-list">
-            <div class="diff-item">
-              <div class="emoji">📐</div><b>참조 분포 비교</b>
-              <p>다차원 음향 특징을 연구용 건강 기침 참조 분포와 비교합니다.</p>
-            </div>
-            <div class="diff-item">
-              <div class="emoji">🗓️</div><b>날짜별 누적</b>
-              <p>분석 결과를 한 번 보고 끝내지 않고 사용자 기록으로 누적합니다.</p>
-            </div>
-            <div class="diff-item">
-              <div class="emoji">🌫️</div><b>맥락 정보</b>
-              <p>복약 여부, 주관적 빈도, 미세먼지와 같은 정보와 함께 기록합니다.</p>
-            </div>
-            <div class="diff-item">
-              <div class="emoji">⌚</div><b>웨어러블 확장</b>
-              <p>향후 저전력 기침 의심 이벤트 감지 모듈과 연결할 수 있도록 설계합니다.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 03 FLOW -->
-    <section id="flow" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">03</div>
-          <div class="chapter-title">
-            <small>Analysis Pipeline</small>
-            <h2>기침 한 번이 기록이 되기까지</h2>
-            <p>
-              녹음 → 전처리 → 특징 추출 → 기침 판별 → 참조 분포 비교 → 기록·시각화의
-              6단계 흐름으로 구성합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="flow reveal">
-          <div class="flow-step"><div class="step-no">01</div><div class="step-icon">🎙️</div><h3>기침 녹음</h3><p>모바일 앱 또는 향후 웨어러블에서 음향을 수집합니다.</p></div>
-          <div class="flow-step"><div class="step-no">02</div><div class="step-icon">🔊</div><h3>음성 전처리</h3><p>16kHz mono 변환, 길이·클리핑·잡음 상태를 확인합니다.</p></div>
-          <div class="flow-step"><div class="step-no">03</div><div class="step-icon">〰️</div><h3>특징 추출</h3><p>STFT/Spectrogram으로 시간·주파수 특징을 표현합니다.</p></div>
-          <div class="flow-step"><div class="step-no">04</div><div class="step-icon">🤖</div><h3>기침 판별</h3><p>AI 모델이 기침 여부와 모델 신뢰도를 계산합니다.</p></div>
-          <div class="flow-step"><div class="step-no">05</div><div class="step-icon">📐</div><h3>분포 비교</h3><p>Mahalanobis Distance로 참조 분포와의 차이를 계산합니다.</p></div>
-          <div class="flow-step"><div class="step-no">06</div><div class="step-icon">📈</div><h3>기록·시각화</h3><p>분석 결과와 사용자 입력을 히스토리로 누적합니다.</p></div>
-        </div>
-
-        <div class="pipeline-note reveal">
-          <b>Quality Score</b>는 녹음 상태를 설명하는 보조 지표이고,
-          <b>Cough Confidence</b>는 기침 판별 신뢰도,
-          <b>Deviation</b>은 연구용 참조 분포 대비 음향적 차이를 나타냅니다.
-          서로 다른 의미이므로 하나의 “건강 점수”로 합치지 않는 방향입니다.
-        </div>
-      </div>
-    </section>
-
-    <!-- 04 DATA -->
-    <section id="data" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">04</div>
-          <div class="chapter-title">
-            <small>Data & Reference</small>
-            <h2>어떤 데이터를 기준으로 비교하나요?</h2>
-            <p>
-              초기 연구 단계에서는 공개 기침 데이터셋을 활용하여 참조 분포를 구성하고,
-              측정 결과와 사용자 맥락 정보를 함께 저장하도록 설계합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="data-grid">
-          <div class="data-block reveal">
-            <div class="data-title">
-              <h3>COUGHVID 기반 참조 분포</h3>
-              <p>연구용 healthy cough 참조 분포를 구성하는 개념적 흐름입니다.</p>
-            </div>
-            <div class="data-list">
-              <div class="data-row"><div class="data-index">1</div><div><b>공개 데이터 활용</b><p>COUGHVID의 기침 음향과 의료진 라벨 정보를 참고합니다.</p></div></div>
-              <div class="data-row"><div class="data-index">2</div><div><b>healthy_cough 샘플 선별</b><p>참조 분포에 사용할 라벨 정책에 맞는 샘플을 선택합니다.</p></div></div>
-              <div class="data-row"><div class="data-index">3</div><div><b>음향 특징 벡터 생성</b><p>전처리와 특징 추출을 통해 비교 가능한 다차원 특징을 만듭니다.</p></div></div>
-              <div class="data-row"><div class="data-index">4</div><div><b>평균·공분산 관리</b><p>Mahalanobis Distance 계산에 필요한 통계 정보와 버전을 관리합니다.</p></div></div>
-            </div>
-          </div>
-
-          <div class="data-block alt reveal">
-            <div class="data-title">
-              <h3>측정 1회에 저장되는 정보</h3>
-              <p>분석 값만 저장하지 않고 당시의 맥락과 참조 버전까지 연결합니다.</p>
-            </div>
-            <div class="data-list">
-              <div class="data-row"><div class="data-index">A</div><div><b>Recording</b><p>녹음 시각, 음성 파일 위치, 동기화 상태</p></div></div>
-              <div class="data-row"><div class="data-index">B</div><div><b>AI Result</b><p>기침 여부, 기침 신뢰도, Quality Score</p></div></div>
-              <div class="data-row"><div class="data-index">C</div><div><b>Pattern Difference</b><p>Mahalanobis Distance, 이탈도, 참조 분포 버전</p></div></div>
-              <div class="data-row"><div class="data-index">D</div><div><b>User / Environment</b><p>복약 여부, 주관적 빈도, 통증 정도, PM10·PM2.5 등</p></div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="data-warning reveal">
-          공개 데이터셋은 국내 사용자의 특성을 충분히 반영하지 못할 수 있습니다.
-          ANIMA는 향후 국내 사용자 중심의 기침 음향 데이터를 체계적으로 확보하고
-          연구윤리·동의·개인정보 보호 절차를 거쳐 연구용 모델을 보완하는 것을 목표로 합니다.
-        </div>
-      </div>
-    </section>
-
-    <!-- 05 APP -->
-    <section id="app" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">05</div>
-          <div class="chapter-title">
-            <small>Interface Concept</small>
-            <h2>사용자는 복잡한 분석보다 ‘기록의 흐름’을 봅니다.</h2>
-            <p>
-              실제 앱에서는 전문 용어를 최소화하고 녹음, 결과, 히스토리의 세 화면을 중심으로
-              이해하기 쉽게 보여주는 방향을 목표로 합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="app-layout">
-          <div class="app-intro reveal">
-            <h3>Record.<br>Understand.<br>Review.</h3>
-            <p>
-              사용자는 기침을 녹음하고, 분석된 지표의 의미를 확인한 뒤,
-              날짜별 변화와 함께 이전 기록을 다시 볼 수 있습니다.
-            </p>
-            <div class="app-key">
-              <div><b>01.</b> 한 번의 녹음을 빠르게 시작</div>
-              <div><b>02.</b> 지표마다 다른 의미를 짧게 설명</div>
-              <div><b>03.</b> 장기 기록은 그래프와 맥락 정보로 확인</div>
-            </div>
-          </div>
-
-          <div class="phones reveal">
-            <div class="phone-card">
-              <div class="phone-screen">
-                <div class="phone-top"><span>9:41</span><span>RECORD</span></div>
-                <h4>오늘의 기침을<br>기록해 보세요.</h4>
-                <p>가능하면 조용한 환경에서 자연스럽게 녹음합니다.</p>
-                <div class="record-circle">🎙️</div>
-                <div class="phone-btn">녹음 시작</div>
-              </div>
-            </div>
-
-            <div class="phone-card">
-              <div class="phone-screen">
-                <div class="phone-top"><span>9:41</span><span>RESULT</span></div>
-                <h4>분석이 완료되었습니다.</h4>
-                <p>질병 진단이 아닌 음향 패턴 기록을 위한 연구용 정보입니다.</p>
-                <div class="score-big"><div><b>92%</b><small>COUGH CONF.</small></div></div>
-                <div class="mini-metrics">
-                  <div class="mini-metric"><small>QUALITY</small><b>87 / 100</b></div>
-                  <div class="mini-metric"><small>DEVIATION</small><b>3.42</b></div>
-                </div>
-                <div class="phone-btn">기록 저장</div>
-              </div>
-            </div>
-
-            <div class="phone-card">
-              <div class="phone-screen">
-                <div class="phone-top"><span>9:41</span><span>HISTORY</span></div>
-                <h4>8월 패턴 변화</h4>
-                <p>날짜별 이탈도와 복약·환경 정보를 함께 확인합니다.</p>
-                <div class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                <div class="mini-metrics" style="margin-top:14px">
-                  <div class="mini-metric"><small>MEDICATION</small><b>기록됨</b></div>
-                  <div class="mini-metric"><small>PM2.5</small><b>18 μg/m³</b></div>
-                </div>
-                <div class="phone-btn">전체 기록 보기</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 06 METRICS -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">06</div>
-          <div class="chapter-title">
-            <small>How to Read</small>
-            <h2>결과 화면의 숫자는 무엇을 의미하나요?</h2>
-            <p>세 가지 지표를 서로 구분해서 설명하여 질병 진단값처럼 오해하지 않도록 합니다.</p>
-          </div>
-        </div>
-
-        <div class="metric-table reveal">
-          <div class="metric-row metric-head">
-            <div>Metric</div><div>Example</div><div>Meaning</div>
-          </div>
-          <div class="metric-row">
-            <div class="metric-name">Cough Confidence</div>
-            <div class="metric-value">92%</div>
-            <div class="metric-desc">AI 모델이 입력된 음성을 기침으로 판단한 신뢰도입니다. 질병의 확률이나 중증도를 의미하지 않습니다.</div>
-          </div>
-          <div class="metric-row">
-            <div class="metric-name">Quality Score</div>
-            <div class="metric-value">87</div>
-            <div class="metric-desc">녹음 길이, 잡음, 클리핑 등 입력 데이터의 분석 적합성을 설명하는 보조 지표입니다.</div>
-          </div>
-          <div class="metric-row">
-            <div class="metric-name">Deviation</div>
-            <div class="metric-value">3.42</div>
-            <div class="metric-desc">연구용 참조 분포와 입력 기침 음향 특징의 통계적 차이를 나타냅니다. 질병 위험도와 동일하지 않습니다.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 07 TECH -->
-    <section id="tech" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">07</div>
-          <div class="chapter-title">
-            <small>Technology & Architecture</small>
-            <h2>앱부터 웨어러블까지 하나의 흐름으로</h2>
-            <p>모바일, 서버, AI·음향 분석, 데이터베이스, 웨어러블 확장 구조를 역할별로 구분합니다.</p>
-          </div>
-        </div>
-
-        <div class="tech-grid">
-          <div class="tech reveal"><h3>📱 Application</h3><div class="badges"><span>Flutter</span><span>UX/UI</span></div><p>녹음, 결과 확인, 히스토리와 그래프 화면을 담당합니다.</p></div>
-          <div class="tech reveal"><h3>🖥 Backend</h3><div class="badges"><span>Python</span><span>FastAPI</span></div><p>업로드, 전처리, 분석 요청, 결과 저장 흐름을 담당합니다.</p></div>
-          <div class="tech reveal"><h3>🧠 AI / Audio</h3><div class="badges"><span>STFT</span><span>Spectrogram</span><span>2D CNN</span></div><p>기침 음향 특징 추출과 기침 여부 판별을 담당합니다.</p></div>
-          <div class="tech reveal"><h3>📐 Statistics</h3><div class="badges"><span>Mahalanobis Distance</span><span>Covariance</span></div><p>참조 분포와 입력 데이터의 음향적 차이를 계산합니다.</p></div>
-          <div class="tech reveal"><h3>🗄 Data</h3><div class="badges"><span>Relational DB</span><span>Audio Storage</span></div><p>측정 기록, 사용자 입력, 참조 버전, 음성 파일을 관리합니다.</p></div>
-          <div class="tech reveal"><h3>⌚ Wearable</h3><div class="badges"><span>XIAO nRF52840 Sense</span><span>BLE</span></div><p>향후 기침 의심 이벤트 감지와 스마트폰 전송 구조로 확장합니다.</p></div>
-        </div>
-
-        <div class="architecture reveal">
-          <div class="arch-line">
-            <div class="arch-box">👤<b>User</b><small>기침 녹음</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box">📱<b>Flutter</b><small>Record / History</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box">🖥️<b>FastAPI</b><small>Upload / API</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box">🧠<b>AI Pipeline</b><small>Detection / Deviation</small></div>
-            <div class="arch-arrow">→</div>
-            <div class="arch-box">🗄️<b>DB</b><small>Record / Version</small></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 08 USE CASE -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">08</div>
-          <div class="chapter-title">
-            <small>Potential Use Cases</small>
-            <h2>검증을 거친 뒤 어디까지 확장할 수 있을까요?</h2>
-            <p>아래 내용은 현재 확정된 의료 효능이 아니라 향후 검증과 제도적 검토를 전제로 한 활용 가능성입니다.</p>
-          </div>
-        </div>
-
-        <div class="use-grid reveal">
-          <div class="use-item"><div class="emoji">👤</div><h3>개인 기침 기록</h3><p>자신의 기침 음향 변화를 날짜별로 확인하는 기록 도구로 발전할 수 있습니다.</p><small>현재 방향: 기록·시각화 중심</small></div>
-          <div class="use-item"><div class="emoji">💻</div><h3>상담 참고 자료</h3><p>충분한 검증 이후 장기 기록을 구조화해 진료 전 참고 자료 가능성을 연구할 수 있습니다.</p><small>의료진의 판단을 대체하지 않음</small></div>
-          <div class="use-item"><div class="emoji">🏠</div><h3>생활 모니터링</h3><p>웨어러블과 결합해 일상생활 속 기침 의심 이벤트 기록으로 확장할 수 있습니다.</p><small>실사용 전 안전성·규제 검토 필요</small></div>
-          <div class="use-item"><div class="emoji">📚</div><h3>연구 데이터 자산</h3><p>국내 사용자 데이터를 체계적으로 축적해 기침 음향 연구의 기초 자료로 활용할 수 있습니다.</p><small>IRB·동의·개인정보 보호 절차 전제</small></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 09 NOTICE -->
-    <section id="notice" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">09</div>
-          <div class="chapter-title">
-            <small>Medical & Research Notice</small>
-            <h2>연구 범위와 한계를 명확하게 표시합니다.</h2>
-            <p>ANIMA의 분석 지표가 질병 진단 결과처럼 오해되지 않도록 프로젝트의 현재 범위를 별도 섹션에서 설명합니다.</p>
-          </div>
-        </div>
-
-        <div class="notice reveal">
-          <div class="notice-main">
-            <div class="notice-icon">⚕️</div>
-            <div class="notice-copy">
-              <h3>ANIMA는 질병을 진단하는 의료 서비스가 아닙니다.</h3>
-              <p>
-                현재 ANIMA는 기침 음향 특징과 시간에 따른 패턴 변화를 기록하기 위한
-                연구·교육 목적의 프로토타입입니다. 기침 감지 확률, 품질 점수,
-                Mahalanobis Distance 및 이탈도는 특정 질환의 존재 여부를 판정하는 수치가 아닙니다.
-              </p>
-            </div>
-          </div>
-
-          <div class="notice-grid">
-            <div class="notice-item"><div>🩺</div><h4>의학적 판단을 대체하지 않음</h4><p>결과만으로 질병을 판단하거나 약물의 시작·중단·변경을 결정해서는 안 됩니다.</p></div>
-            <div class="notice-item"><div>📊</div><h4>이탈도 ≠ 질병 위험도</h4><p>이탈도는 연구용 참조 분포 대비 음향 특징의 통계적 차이입니다.</p></div>
-            <div class="notice-item"><div>🧪</div><h4>현재는 연구·검증 단계</h4><p>공개 데이터 기반 초기 구조이며, 향후 국내 데이터와 의료기관 협업을 통한 보정·검증이 필요합니다.</p></div>
-            <div class="notice-item"><div>🔐</div><h4>데이터 보호 절차 필요</h4><p>실제 사용자 음성·건강 관련 데이터를 수집할 경우 연구윤리와 개인정보 보호 요건을 별도로 검토합니다.</p></div>
-          </div>
-        </div>
-
-        <div class="warning-line reveal">
-          지속적이거나 심한 기침, 호흡 곤란, 흉통 등 건강상 이상이 있는 경우에는
-          ANIMA의 분석 결과와 관계없이 의료기관을 통한 전문적인 평가가 필요합니다.
-        </div>
-      </div>
-    </section>
-
-    <!-- 10 STATUS -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">10</div>
-          <div class="chapter-title">
-            <small>Project Status</small>
-            <h2>현재 ANIMA는 어디까지 왔나요?</h2>
-            <p>프로토타입에서 확인한 부분과 앞으로 확장해야 할 과제를 구분합니다.</p>
-          </div>
-        </div>
-
-        <div class="status-grid">
-          <div class="status-list reveal">
-            <div class="status-row"><div class="status-check">✓</div><div><b>모바일 앱 ↔ AI 분석 서버 연동</b><p>기본적인 앱과 서버 간 통신 흐름을 구성했습니다.</p></div></div>
-            <div class="status-row"><div class="status-check">✓</div><div><b>에뮬레이터 환경 작동 확인</b><p>설계된 분석 흐름의 기술적 실현 가능성을 프로토타입 환경에서 확인했습니다.</p></div></div>
-            <div class="status-row"><div class="status-check">✓</div><div><b>기침 분석 파이프라인 설계</b><p>품질 확인 → 기침 판별 → 참조 분포 비교 → 기록 구조를 구성했습니다.</p></div></div>
-            <div class="status-row pending"><div class="status-check">→</div><div><b>국내 데이터 및 라벨링 확대</b><p>한국인 중심의 데이터 확보와 체계적인 라벨링 고도화가 필요합니다.</p></div></div>
-            <div class="status-row pending"><div class="status-check">→</div><div><b>웨어러블·웹 플랫폼 확장</b><p>하드웨어 이벤트 감지와 데이터 수집·소개 웹을 실제 서비스 흐름에 연결합니다.</p></div></div>
-          </div>
-
-          <aside class="status-side reveal">
-            <small>Current Stage</small>
-            <strong>Prototype</strong>
-            <p>
-              현재 ANIMA는 상용 의료 서비스가 아니라 연구·교육 목적의 프로토타입입니다.
-              핵심 알고리즘과 서비스 흐름을 구현하고, 데이터 확대·하드웨어·웹·연구윤리·검증 절차를 보완하는 단계입니다.
-            </p>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- 11 TEAM -->
-    <section id="team" class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">11</div>
-          <div class="chapter-title">
-            <small>ANIMA Team</small>
-            <h2>각자의 역할을 하나의 시스템으로 연결합니다.</h2>
-            <p>기획, AI, 데이터, 서버, UX/UI, DB, 웹, 하드웨어, 가이드를 역할별로 나누어 진행합니다.</p>
-          </div>
-        </div>
-
-        <div class="leader reveal">
-          <div class="leader-left">
-            <div class="member-role">TEAM LEADER</div>
-            <div class="member-name">주세희</div>
-            <div>Planning · AI · Research · Hardware</div>
-          </div>
-          <div class="leader-right">
-            <div class="role-tags">
-              <span>기획</span><span>문서 작업</span><span>데이터 전처리</span>
-              <span>AI 모델 생성</span><span>학술지 작성</span><span>IRB</span><span>하드웨어 구현</span>
-            </div>
-            <p class="member-desc">
-              프로젝트 전반의 기획과 문서화를 담당하며, 기침 음향 데이터 전처리,
-              AI 모델 생성, 학술지 작성, IRB 관련 준비, 웨어러블 하드웨어 구현까지
-              핵심 연구·개발 업무를 담당합니다.
-            </p>
-          </div>
-        </div>
-
-        <div class="team-grid reveal">
-          <div class="member">
-            <div class="member-head"><div><small>BACKEND / DATA / WEB</small><h3>이강민</h3></div><div class="member-emoji">🖥️</div></div>
-            <div class="role-tags"><span>서버 구축</span><span>데이터 라벨링</span><span>웹 제작</span></div>
-            <p class="member-desc">서버 환경과 데이터 통신 구조를 구축하고 기침 음향 데이터 라벨링과 웹 제작을 담당합니다.</p>
-          </div>
-
-          <div class="member">
-            <div class="member-head"><div><small>UX/UI / DB / FRONT</small><h3>정해서</h3></div><div class="member-emoji">🎨</div></div>
-            <div class="role-tags"><span>UX</span><span>UI</span><span>DB 설계</span><span>프론트</span><span>웹 제작</span></div>
-            <p class="member-desc">UX/UI와 프론트엔드, 데이터베이스 구조 설계 및 웹 제작을 담당합니다.</p>
-          </div>
-
-          <div class="member">
-            <div class="member-head"><div><small>DATA / INTRO PAGE</small><h3>신호철</h3></div><div class="member-emoji">🏷️</div></div>
-            <div class="role-tags"><span>데이터 라벨링</span><span>HTML 소개페이지 제작</span></div>
-            <p class="member-desc">기침 음향 데이터를 기준에 맞게 분류·라벨링하고 프로젝트를 알기 쉽게 소개하는 HTML 페이지 제작을 담당합니다.</p>
-          </div>
-
-          <div class="member">
-            <div class="member-head"><div><small>WEB DESIGN / GUIDE</small><h3>임태희</h3></div><div class="member-emoji">🖌️</div></div>
-            <div class="role-tags"><span>웹 디자인</span><span>가이드 제작</span><span>사용성 피드백</span></div>
-            <p class="member-desc">웹 페이지 시각 디자인, 사용 가이드 제작, 불편한 점에 대한 사용자 관점의 피드백을 담당합니다.</p>
-          </div>
-        </div>
-
-        <div class="collab-line reveal">
-          <div class="collab-step">🎙️<b>Data</b>수집·전처리·라벨링</div>
-          <div class="collab-step">🧠<b>AI</b>기침 판별·이탈도</div>
-          <div class="collab-step">🖥️<b>Server / DB</b>API·데이터 관리</div>
-          <div class="collab-step">📱<b>UX / UI</b>앱·프론트</div>
-          <div class="collab-step">🌐<b>Web</b>소개·디자인·가이드</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 12 ROADMAP -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">12</div>
-          <div class="chapter-title">
-            <small>Roadmap</small>
-            <h2>다음 단계에서 무엇을 고도화할까요?</h2>
-            <p>데이터·AI, 하드웨어·서비스, 연구·검증의 세 축을 기준으로 프로젝트를 확장합니다.</p>
-          </div>
-        </div>
-
-        <div class="roadmap">
-          <div class="road reveal">
-            <h3>🧠 AI / Data</h3>
-            <ul>
-              <li>데이터 라벨링 기준 정교화</li>
-              <li>한국인 기침 음향 데이터 축적</li>
-              <li>AI 모델 성능 개선 및 검증</li>
-              <li>참조 분포 버전 관리</li>
-            </ul>
-          </div>
-          <div class="road reveal">
-            <h3>⌚ Hardware / Service</h3>
-            <ul>
-              <li>XIAO nRF52840 Sense 기반 웨어러블 구현</li>
-              <li>BLE 기반 스마트폰 연동</li>
-              <li>웹 서비스·소개 페이지 고도화</li>
-              <li>사용 가이드 및 피드백 반영</li>
-            </ul>
-          </div>
-          <div class="road reveal">
-            <h3>🧪 Research / Validation</h3>
-            <ul>
-              <li>IRB 관련 준비 및 절차 검토</li>
-              <li>실사용 데이터 수집 체계 검토</li>
-              <li>의료기관 협업 가능성 탐색</li>
-              <li>개인정보·연구윤리·규제 요건 검토</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="chapter">
-      <div class="wrap">
-        <div class="chapter-head reveal">
-          <div class="chapter-no">FAQ</div>
-          <div class="chapter-title">
-            <small>Questions</small>
-            <h2>ANIMA를 처음 보는 사람이 궁금해할 내용</h2>
-            <p>프로젝트 목적과 분석 결과를 오해하기 쉬운 질문을 간단히 정리했습니다.</p>
-          </div>
-        </div>
-
-        <div class="faq reveal">
-          <details>
-            <summary>ANIMA가 기침 소리만으로 질병을 진단하나요?</summary>
-            <p>아닙니다. 현재 ANIMA는 기침 여부와 음향 패턴 변화를 기록하기 위한 연구용 시스템이며 특정 질환을 진단하도록 설계된 서비스가 아닙니다.</p>
-          </details>
-          <details>
-            <summary>이탈도가 높으면 건강 상태가 나쁘다는 뜻인가요?</summary>
-            <p>그렇지 않습니다. 이탈도는 연구용 참조 분포와 현재 기침 음향 특징의 통계적 차이를 나타내는 값이며 질병 위험도나 중증도와 동일하지 않습니다.</p>
-          </details>
-          <details>
-            <summary>왜 한 번의 분석보다 장기 기록이 중요한가요?</summary>
-            <p>ANIMA의 중심은 같은 사용자의 기록을 반복적으로 쌓아 시간에 따른 변화 추이를 보는 데 있습니다. 복약 여부나 환경 정보와 함께 비교할 수 있도록 설계합니다.</p>
-          </details>
-          <details>
-            <summary>웨어러블은 어떤 역할을 하나요?</summary>
-            <p>향후 XIAO nRF52840 Sense를 이용하여 일상에서 기침 의심 이벤트를 감지하고 BLE로 스마트폰에 전달하는 구조를 연구하고 있습니다.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="wrap footer-grid">
-      <div>
-        <div class="footer-brand">ANIMA</div>
-        <div class="footer-text">
-          AI 기반 개인 맞춤형 기침 음향 패턴 변화 기록 시스템 프로젝트 소개 페이지.<br>
-          본 페이지는 연구·교육 목적의 프로젝트 설명용이며 특정 질환에 대한 진단·치료·예측을 제공하지 않습니다.
-        </div>
-      </div>
-      <div class="footer-copy">© 2026 ANIMA Team<br>Signal Editorial Remake</div>
+  <section class="section" id="about">
+    <div class="wrap purpose">
+      <div><div class="eyebrow">01 / The question</div><h2>기침 한 번보다,<br>그 사이의 변화에 주목합니다.</h2><blockquote>“지난번과 비교하면<br><span>무엇이 달라졌을까?</span>”</blockquote></div>
+      <div class="purpose-content"><p>기침은 일상적으로 발생하지만, 언제 어떤 소리가 났는지 기억만으로 비교하기는 어렵습니다. ANIMA는 녹음한 소리와 분석 결과를 남겨, 이전 기록을 다시 확인할 수 있도록 합니다.</p><p><strong>음성을 입력하면 기침 여부를 판별하고, 기침으로 확인된 소리의 특징을 연구용 참조 분포와 비교합니다.</strong> 결과는 리포트와 날짜별 이력으로 이어집니다.</p><p>중간발표에서는 모바일 녹음·업로드, 변화 분석, 기록 조회와 PDF 보고서 화면을 제시했습니다. 수행일지에는 웹 데모 구축과 앱 알파 테스트도 기록되어 있으며, 웹 기능과 하드웨어 보완을 이어갑니다.</p><div class="mini-flow">A SOUND <i>→</i> A RECORD <i>→</i> A PATTERN</div><p class="source-note">중간발표 및 2026.06.23~08.26 수행일지 기준</p></div>
     </div>
-  </footer>
+  </section>
 
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("show");
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
 
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-  </script>
+  <section class="section experience" id="experience">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">02 / Inside the prototype</div><h2>녹음부터 지난 기록까지,<br>앱에서 이어지는 흐름</h2></div><p class="section-intro">중간발표에 담긴 실제 개발 화면입니다.<br>사용자는 녹음하고, 결과를 확인하고,<br>이전 기록을 다시 살펴볼 수 있습니다.</p></div>
+      <div class="screen-grid">
+        <figure class="screen-card"><a class="screen-visual" href="assets/app-recording.png" target="_blank" rel="noopener noreferrer" aria-label="녹음 화면 원본 크게 보기"><img src="assets/app-recording.png" width="311" height="609" alt="중간발표의 모바일 녹음 화면. 마이크 표시와 녹음 시간이 나타납니다." loading="lazy"></a><figcaption><small>01 / RECORD</small><h3>기침 소리 녹음·업로드</h3><p>앱에서 소리를 녹음해 서버로 보냅니다. 서버는 입력 음향을 분석하고 기침 감지 여부와 결과를 돌려줍니다.</p><a class="image-hint" href="assets/app-recording.png" target="_blank" rel="noopener noreferrer">원본 크게 보기 ↗</a></figcaption></figure>
+        <figure class="screen-card"><a class="screen-visual" href="assets/app-report.png" target="_blank" rel="noopener noreferrer" aria-label="분석 리포트 화면 원본 크게 보기"><img src="assets/app-report.png" width="325" height="731" alt="중간발표의 기침 분석 리포트. 이탈도, 녹음 재생, 변화 그래프와 PDF 저장 버튼을 보여주는 시연 화면입니다." loading="lazy"></a><figcaption><small>02 / REPORT</small><h3>분석 결과와 변화 그래프</h3><p>기침 음향의 차이를 점수와 그래프로 확인합니다. 녹음한 소리를 다시 듣고, 기록을 PDF로 저장하는 화면도 구현했습니다.</p><a class="image-hint" href="assets/app-report.png" target="_blank" rel="noopener noreferrer">원본 크게 보기 ↗</a></figcaption></figure>
+        <figure class="screen-card"><a class="screen-visual" href="assets/app-history.png" target="_blank" rel="noopener noreferrer" aria-label="과거 이력 화면 원본 크게 보기"><img src="assets/app-history.png" width="320" height="655" alt="중간발표의 과거 이력 화면. 날짜별 기침 감지 결과 목록과 평균 이탈도 추이 예시입니다." loading="lazy"></a><figcaption><small>03 / HISTORY</small><h3>날짜별 이력 다시 보기</h3><p>기침이 감지된 기록과 감지되지 않은 기록을 확인하고, 누적된 음향 지표의 흐름을 살펴봅니다.</p><a class="image-hint" href="assets/app-history.png" target="_blank" rel="noopener noreferrer">원본 크게 보기 ↗</a></figcaption></figure>
+      </div>
+      <p class="screen-note">화면은 중간발표 당시의 시연 예시입니다. 표시된 수치와 ‘양호·주의·경고’ 문구는 임상적 건강 상태나 질병 위험도를 판정하는 기준이 아닙니다.</p>
+      <div class="report-feature">
+        <div><div class="eyebrow">A report to look back on</div><h3>여러 번의 기록을<br>하나의 보고서로 정리합니다.</h3><p>앱 안의 결과를 다시 살펴볼 수 있도록 PDF 보고서 기능을 구현했습니다. 발표자료의 보고서 예시는 측정 기간과 핵심 지표, 시간에 따른 변화 등을 함께 배치합니다.</p><ul><li>측정 기간·횟수와 주요 음향 지표</li><li>이탈도 추이와 기침 발생 기록</li><li>복약 시점·사용자 입력·환경 정보의 맥락</li><li>이전 기간과의 비교</li></ul><p>오른쪽 보고서는 <strong>더미 데이터 20건</strong>으로 구성한 예시입니다. 임상 성능 검증 결과나 실제 사용자 분석 결과로 제시하지 않습니다.</p><a class="text-link" href="assets/pdf-report-example.jpg" target="_blank" rel="noopener noreferrer">PDF 보고서 화면 원본 보기 ↗</a></div>
+        <figure class="report-preview"><a href="assets/pdf-report-example.jpg" target="_blank" rel="noopener noreferrer" aria-label="더미 데이터로 구성한 PDF 보고서 이미지 원본 크게 보기"><img src="assets/pdf-report-example.jpg" width="1447" height="2048" alt="중간발표에 수록된 ANIMA PDF 보고서 예시. 더미 데이터 20건으로 만든 지표와 추이 그래프입니다." loading="lazy"></a><figcaption>중간발표 11쪽 · PDF 문서의 화면 이미지이며, 내려받을 수 있는 실제 PDF 파일은 아닙니다.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section flow-section" id="process">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">03 / From sound to record</div><h2>소리가 기록이 되는 여섯 단계</h2></div><p class="section-intro">기침을 판별하는 첫 단계와 음향적 차이를 계산하는 두 번째 단계를 연결한 분석 파이프라인입니다.</p></div>
+      <div class="phase-strip"><div><small>STAGE 1 / DETECTION</small><strong>이 소리는 기침인가요?</strong><p>전처리와 STFT를 거쳐 CNN 모델로 기침 여부를 판별합니다.</p></div><div><small>STAGE 2 / CHANGE ANALYSIS</small><strong>참조 음향과 얼마나 다른가요?</strong><p>기침의 특징 벡터를 추출해 거리와 이탈도 점수를 계산합니다.</p></div></div>
+      <div class="steps">
+        <article class="step"><div class="step-no">01 <span aria-hidden="true">↗</span></div><h3>기침 녹음</h3><p>모바일 앱에서 소리를 녹음합니다. 측정 시점과 사용자가 남긴 정보가 기록의 시작점이 됩니다.</p><small>AUDIO INPUT</small></article>
+        <article class="step"><div class="step-no">02 <span aria-hidden="true">↗</span></div><h3>전처리·품질 확인</h3><p>16kHz 모노 형식으로 정리하고, 녹음 길이와 잡음·클리핑 등 분석에 영향을 주는 조건을 확인합니다.</p><small>16 kHz / MONO</small></article>
+        <article class="step"><div class="step-no">03 <span aria-hidden="true">↗</span></div><h3>음향 특징 표현</h3><p>STFT와 스펙트로그램으로 소리를 시간·주파수 정보로 바꿉니다. 소리의 특징을 모델이 읽을 수 있게 합니다.</p><small>STFT / SPECTROGRAM</small></article>
+        <article class="step"><div class="step-no">04 <span aria-hidden="true">↗</span></div><h3>기침 여부 판별</h3><p>2D CNN 기반 모델로 입력 소리의 기침 여부를 판별합니다. 모델의 기침 판별 신뢰도도 함께 확인합니다.</p><small>COUGH CLASSIFICATION</small></article>
+        <article class="step"><div class="step-no">05 <span aria-hidden="true">↗</span></div><h3>참조 분포와 비교</h3><p>기침의 특징을 숫자 벡터로 추출합니다. 연구용 참조 분포와의 마할라노비스 거리를 계산하고 이탈도 점수로 표현합니다.</p><small>MAHALANOBIS DISTANCE</small></article>
+        <article class="step"><div class="step-no">06 <span aria-hidden="true">↗</span></div><h3>누적 기록 확인</h3><p>분석 결과를 날짜별로 저장하고, 여러 시점의 변화를 살펴봅니다. 단일 수치와 기록의 맥락을 함께 봅니다.</p><small>HISTORY / TRENDS</small></article>
+      </div>
+      <div class="flow-callout"><p><strong>분석의 기준도 함께 고려합니다.</strong> 모델과 참조 분포의 버전이 달라지면 결과를 비교할 때 이를 함께 고려해야 합니다.</p><a class="text-link" href="#research">지표의 의미 알아보기 ↗</a></div>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">04 / Read the difference</div><h2>이 숫자는 ‘소리의 차이’입니다.</h2></div><p class="section-intro">기침인지, 분석하기에 적절한 녹음인지, 참조 데이터와 얼마나 다른지. 각각 다른 질문에 답하는 지표입니다.</p></div>
+      <div class="research-grid">
+        <div><div class="reference-panel"><div class="eyebrow">Reference distribution</div><h3>COUGHVID</h3><p>현재 분석은 공개 데이터의 <code>healthy_cough</code> 표본으로 구축한 연구용 참조 분포를 활용합니다. 6월 수행일지에는 해당 표본 추가 수집과 참조 분포 도구 개선이 기록되어 있습니다.</p><svg viewBox="0 0 440 235" role="img" aria-label="참조 표본의 분포와 비교 대상의 위치를 설명하는 개념도. 실제 데이터나 계산 결과가 아닙니다."><path d="M27 202H424M27 202V17" fill="none" stroke="#acbddd"/><g fill="#2455ed" fill-opacity=".035" stroke="#2455ed" stroke-opacity=".25"><ellipse cx="190" cy="127" rx="123" ry="64" transform="rotate(-25 190 127)"/><ellipse cx="190" cy="127" rx="83" ry="43" transform="rotate(-25 190 127)"/><ellipse cx="190" cy="127" rx="44" ry="23" transform="rotate(-25 190 127)"/></g><g id="reference-dots" fill="#2455ed" opacity=".7"></g><path d="M190 127L352 51" stroke="#1b283e" stroke-dasharray="4 5"/><circle cx="352" cy="51" r="6" fill="white" stroke="#1b283e" stroke-width="2"/><text x="365" y="48" font-size="12" fill="#34415b">비교 대상</text><text x="304" y="227" font-size="11" fill="#5d6c86">설명용 개념도</text></svg><div class="legend"><span><i></i>참조 음향 특징</span><span><i class="outlined"></i>분석 대상 특징</span></div></div><p class="data-note">개인별 기록으로 자체 참조 분포를 만드는 기능은 향후 계획입니다. 현재의 참조 분포와 구분해야 하며, 어느 경우에도 임상적 정상 범위를 뜻하지 않습니다. 그림은 설명용 개념도입니다.</p><a class="source-link" href="https://www.nature.com/articles/s41597-021-00937-4" target="_blank" rel="noopener noreferrer">COUGHVID 데이터셋 논문 ↗</a></div>
+        <dl class="metrics">
+          <div class="metric"><dt><small>COUGH CONFIDENCE</small>기침 판별 신뢰도</dt><dd>모델이 입력 음향을 기침으로 판단한 정도입니다. 특정 질환이 있을 확률을 의미하지 않습니다.</dd></div>
+          <div class="metric"><dt><small>QUALITY SCORE</small>녹음 품질 지표</dt><dd>녹음 길이, 잡음, 클리핑 등 입력 음향의 조건을 살펴보는 지표입니다. 품질과 음향적 변화는 구분해 읽어야 합니다.</dd></div>
+          <div class="metric"><dt><small>MAHALANOBIS DISTANCE / DEVIATION</small>참조 분포와의 음향적 거리</dt><dd>소리에서 추출한 특징 벡터와 참조 분포 사이의 거리를 계산합니다. Deviation Score는 그 차이를 이해하기 쉽게 표현하기 위한 지표입니다. 정확한 점수 변환식과 임계값은 이 소개 자료에서 제시하지 않습니다.</dd></div>
+        </dl>
+      </div>
+      <div class="records"><div><h3>숫자만 남기지 않습니다.<br>그날의 맥락도 함께 기록합니다.</h3><p>분석 결과에 복약 시점과 사용자 입력, 환경 정보를 연결하는 구조입니다. 아래 항목은 기획안과 보고서 예시에 담긴 기록 범위이며, 각 외부 데이터 연동의 운영 상태를 뜻하지 않습니다.</p></div><ul class="record-rows"><li><b>측정 정보</b><span>녹음 날짜·시간, 기침 감지 여부, 판별 신뢰도, 품질 지표</span></li><li><b>분석 정보</b><span>마할라노비스 거리, 이탈도. 모델·참조 분포 버전은 기존 기록 설계에 포함</span></li><li><b>사용자 입력</b><span>복약 여부, 주관적 기침 빈도, 통증 정도</span></li><li><b>환경 정보</b><span>PM10·PM2.5 등 측정 당시의 환경 맥락</span></li></ul></div>
+    </div>
+  </section>
+
+  <section class="section architecture" id="system">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">05 / Connected by design</div><h2>하나의 기록으로 연결되는 기술</h2></div><p class="section-intro">모바일에서 시작된 소리가 서버의 분석을 거쳐, 다시 사용자가 읽을 수 있는 기록으로 돌아옵니다.</p></div>
+      <div class="architecture-diagram"><article class="arch-node"><small>01 / INTERFACE</small><h3>모바일 앱</h3><p>녹음 · 결과 조회 · PDF · 히스토리<br>Flutter</p></article><div class="arch-arrow" aria-hidden="true">→</div><article class="arch-node primary"><small>02 / ANALYSIS</small><h3>AI 분석 서버</h3><p>전처리 → 품질 확인 → 기침 판별 → 분포 비교<br>Python · FastAPI · 2D CNN</p></article><div class="arch-arrow" aria-hidden="true">→</div><article class="arch-node"><small>03 / ARCHIVE</small><h3>기록과 저장</h3><p>날짜별 결과 · 음성 파일<br>관계형 DB · Audio Storage</p></article></div>
+      <div class="tech-line"><div><b>음향 처리와 통계</b><p>STFT · Spectrogram<br>Mahalanobis Distance</p></div><div><b>웨어러블 확장</b><p>Seeed Studio XIAO nRF52840 Sense · BLE<br>MCU 보드 테스트 진행 · 감지·전송 확장 연구</p></div><div><b>프로젝트 소개</b><p>HTML · CSS · JavaScript<br>GitHub Pages</p></div></div>
+      <p class="arch-note">앱·서버 분석과 기록 저장은 중간발표의 구현 범위입니다. 저장소 세부 구성은 기획안의 MySQL·S3 설계와 구분해 관리합니다. 이 소개 페이지 자체는 음성을 수집하거나 분석하지 않습니다.</p>
+    </div>
+  </section>
+
+
+  <section class="section" id="development">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">06 / Development notes</div><h2>개발하면서 바꾼 것들</h2></div><p class="section-intro">분석 목표부터 테스트 환경까지.<br>개발 중 만난 문제를 기준으로<br>시스템을 다시 다듬었습니다.</p></div>
+      <div class="lessons">
+        <article class="lesson"><div><small>01 / RESEARCH</small><h3>변화 추적에 맞춘<br>분석 구조</h3></div><div><span class="lesson-label">문제</span><p>초기 질병 분류 방향은 프로젝트의 활용 범위와 의료적 판단의 경계를 모호하게 만들었습니다.</p></div><div><span class="lesson-label">변경</span><p>목표를 기침 패턴의 변화 추적으로 정리하고, 데이터셋과 분석 파이프라인을 재구성했습니다. 기침 여부 판별과 참조 분포 비교를 연결했습니다.</p></div></article>
+        <article class="lesson"><div><small>02 / MOBILE</small><h3>실제 휴대폰에서<br>녹음 테스트</h3></div><div><span class="lesson-label">문제</span><p>Flutter 녹음 패키지가 에뮬레이터에서 정상 동작하지 않아 녹음 기능 테스트에 제약이 있었습니다.</p></div><div><span class="lesson-label">변경</span><p>실기기 개발 환경으로 전환해 녹음과 앱 기능을 테스트했습니다. 이후 앱 알파 테스트에서 개선사항을 정리했습니다.</p></div></article>
+        <article class="lesson"><div><small>03 / SERVER</small><h3>분석 요청을 위한<br>서버 환경 개선</h3></div><div><span class="lesson-label">문제</span><p>무료 서버의 슬립 이후 첫 요청 지연과 분석 메모리 부족이 발생했습니다. 앱·서버·DB의 필드명과 엔진 버전도 맞춰야 했습니다.</p></div><div><span class="lesson-label">변경</span><p>상시 실행하는 클라우드 환경으로 옮기고, 모델과 기준 분포 도구를 교체했습니다. 음성 파일을 별도로 저장하는 서버 구조도 마련했습니다.</p></div></article>
+      </div><p class="source-note">중간발표 13~15쪽, 수행일지 3월 10일·6월 2일·6월 23일 기준. 응답 속도나 모델 정확도의 정량 개선 수치는 자료에 제시되지 않았습니다.</p>
+    </div>
+  </section>
+
+  <section class="section" id="team">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">07 / People behind ANIMA</div><h2>서로 다른 역할, 하나의 ANIMA.</h2></div><p class="section-intro">최신 수행일지의 다섯 명이<br>AI·서버·앱·웹·하드웨어를<br>나누어 개발합니다.</p></div>
+      <div class="team-list">
+        <article class="member"><div class="member-index">01</div><div><h3>주세희</h3><span class="role-label">팀장 · Research & AI</span></div><p><span class="role">기획 · AI · 학술 · 하드웨어</span>기획·문서 작업, 데이터 전처리와 AI 모델 개발, 학술지 작성과 하드웨어 구현을 담당합니다. 참조 분포 도구 개선과 MCU 보드 테스트를 진행했습니다. IRB 승인 신청서 검토는 향후 계획에 포함되어 있습니다.</p></article>
+        <article class="member"><div class="member-index">02</div><div><h3>이강민</h3><span class="role-label">Backend & Data</span></div><p><span class="role">서버 구축 · 데이터 라벨링 · 앱·웹 서버</span>앱·웹과 AI 분석 기능을 연결하는 서버를 구축합니다. 모델·참조 분포 도구 교체, 음성 저장 서버 구성, 데이터 라벨링과 서버 보완을 담당합니다.</p></article>
+        <article class="member"><div class="member-index">03</div><div><h3>정해서</h3><span class="role-label">UX/UI & Frontend</span></div><p><span class="role">UX·UI · DB 설계 · 앱·웹 · 대시보드</span>UX·UI와 데이터베이스, 프런트엔드를 담당합니다. PDF·녹음 재생 기능과 웹 데모를 개발했으며, 웹 기능을 개발하며, 대시보드 백엔드·DB 설계를 계획하고 있습니다.</p></article>
+        <article class="member"><div class="member-index">04</div><div><h3>신호철</h3><span class="role-label">Data & Project Web</span></div><p><span class="role">데이터 라벨링 · 프로젝트 소개 · 파일·소스 관리</span>기침·비기침 데이터 라벨링과 일상 노이즈 수집에 참여했습니다. GitHub README와 HTML 소개 페이지를 제작하고, 소개글 보완과 파일·소스 관리를 다음 작업으로 계획하고 있습니다.</p></article>
+        <article class="member"><div class="member-index">05</div><div><h3>임태희</h3><span class="role-label">Design & Experience</span></div><p><span class="role">웹·대시보드 디자인 · 앱 테스트 · 사용성 피드백</span>웹 화면과 앱 로고를 디자인하고, 앱 알파 테스트 후 개선사항을 정리했습니다. 웹 디자인과 사용자 관점의 피드백을 담당하며, 대시보드 디자인을 계획하고 있습니다.</p></article>
+      </div>
+      <p class="team-caption">2026.08.26 수행일지의 팀 구성과 담당 분야를 반영했습니다.</p>
+    </div>
+  </section>
+
+  <section class="section status-area" id="progress">
+    <div class="wrap">
+      <div class="section-top"><div><div class="eyebrow">08 / Development record</div><h2>기획을 구현으로 옮겨 온 기록</h2></div><p class="section-intro">구현한 기능과 진행 중인 작업,<br>아직 연구가 필요한 계획을<br>구분해 소개합니다.</p></div>
+      <div class="status-grid">
+        <article class="status-col"><small>IMPLEMENTED / PRESENTED</small><h3>구현·시연한 기능</h3><ul><li>모바일 녹음·음성 업로드</li><li>CNN 기침 판별·거리 기반 분석</li><li>Deviation Score·분석 결과 DB 저장</li><li>리포트·과거 이력·PDF 보고서</li></ul></article>
+        <article class="status-col"><small>IN DEVELOPMENT / AUG 26</small><h3>이어가는 개발</h3><ul><li>웹 데모 이후 페이지·기능 제작</li><li>앱·웹 서버 구축과 보완</li><li>MCU 보드 테스트·하드웨어 제작</li><li>소개 콘텐츠·웹 디자인 개선</li></ul></article>
+        <article class="status-col"><small>NEXT / PLANNED</small><h3>다음 단계</h3><ul><li>베타 테스트·UI·UX 보완</li><li>사용자별 참조 분포 연구</li><li>국내 기침 데이터 수집 플랫폼</li><li>산업 음향 분석·대시보드 확장</li></ul></article>
+      </div>
+      <p class="status-note">중간발표와 2026.08.26까지의 수행일지 기준입니다. 공개 서비스 운영 여부나 임상적 유효성을 확인한 결과는 아닙니다.</p>
+      <div class="timeline" aria-label="주요 개발 이력">
+        <article class="milestone"><time datetime="2026-04-07">2026.04.07</time><h3>API와 분석 기반</h3><p>API 구현 완료를 기록하고, 프런트엔드·DB 설계와 기침 데이터 분류 도구를 개발했습니다.</p></article>
+        <article class="milestone"><time datetime="2026-06-02">2026.06.02</time><h3>모델·참조 분포 개선</h3><p>AI 모델과 기준 분포 도구를 교체하고 음성 저장 서버를 분리했습니다. 기침 데이터 라벨링 완료도 기록했습니다.</p></article>
+        <article class="milestone"><time datetime="2026-06-23">2026.06.23</time><h3>웹 데모와 앱 피드백</h3><p>웹사이트 데모를 구축하고, 앱 알파 테스트에서 개선사항을 정리했습니다.</p></article>
+        <article class="milestone"><time datetime="2026-08-26">2026.08.26</time><h3>웹·하드웨어 개발</h3><p>웹페이지와 소개 콘텐츠, 서버 작업을 이어갔습니다. MCU 보드를 테스트하고 대시보드 확장 계획을 세웠습니다.</p></article>
+      </div>
+      <div class="roadmap"><h3>다음 연구의 두 방향</h3><div class="roadmap-grid">
+        <article class="roadmap-item"><small>COUGH / PERSONAL RECORDS</small><h4>개인 기록을 더 잘 읽는 서비스</h4><p>기침 기록의 축적과 사용 경험 개선을 중심으로 앱·웹을 고도화합니다.</p><ul><li>사용자 데이터 기반 개인별 참조 분포 연구</li><li>베타 테스트와 UI·UX 개선</li><li>참여형 웹 플랫폼을 통한 국내 기침 데이터 확보</li><li>웨어러블 감지와 앱 연동, 통합 테스트</li></ul><p class="plan-note">현재 공개 데이터 기반 참조 분포와 개인별 분포 생성 계획을 구분합니다. 데이터 수집에 필요한 연구윤리·동의 절차는 별도 검토 과제입니다.</p></article>
+        <article class="roadmap-item"><small>INDUSTRIAL AUDIO / EXPLORATION</small><h4>산업 음향 분석으로의 확장 탐색</h4><p>8월 26일 수행일지에는 기침 기록 외에 산업 현장의 소리를 다루는 연구 계획이 추가되었습니다.</p><ul><li>산업현장 기계음 데이터셋 조사·확보</li><li>산업용 소음 측정 AI의 전처리·학습</li><li>산업용 웹 대시보드와 분석 서버 테스트</li><li>하드웨어 부품 배치·케이스 제작·보완</li></ul><p class="plan-note">향후 주차별 계획에 기재된 항목입니다. 현장에 배포했거나 성능을 검증한 산업용 제품으로 소개하지 않습니다.</p></article>
+      </div></div>
+      <div class="notice" id="notice"><div><div class="eyebrow">Research & use</div><h3>연구의 가능성과 한계를<br>함께 설명합니다.</h3><p>ANIMA는 기침 음향의 변화 양상을 기록하고 비교하는 연구·교육용 프로토타입입니다. 소개된 화면과 분석값은 의학적 진단이나 치료 판단을 위한 결과가 아닙니다.</p></div><ul class="notice-facts"><li><strong>음향적 차이와 건강 상태는 구분합니다</strong>참조 분포와의 거리가 크다고 질환이 있다는 뜻이 아니며, 작다고 건강을 보장하지도 않습니다. 점수만으로 약물 복용이나 치료를 결정하지 않습니다.</li><li><strong>시연 화면과 검증 결과를 구분합니다</strong>발표자료의 점수·그래프·PDF 보고서는 기능을 보여주는 예시입니다. 자료에는 정확도, 임상 성능이나 표준화된 위험 기준의 검증 수치가 제시되지 않았습니다.</li><li><strong>실사용 절차는 별도로 준비합니다</strong>수행일지에는 음성 데이터 웹 수집을 위한 IRB 승인 신청서 검토가 향후 계획에 포함되어 있습니다. 승인 완료로 해석하지 않으며, 실제 데이터 수집 단계에서는 동의·보호 절차를 함께 검토해야 합니다.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <div class="wrap faq-layout"><div><div class="eyebrow">09 / A few answers</div><h2>궁금한 점을<br>짧게 정리했습니다.</h2></div><div class="faq-list">
+      <details><summary>이 페이지에서 기침을 분석할 수 있나요?</summary><p>이곳은 ANIMA의 연구 목적, 분석 설계와 팀을 소개하는 페이지입니다. 음성을 녹음하거나 업로드하지 않으며, 분석 서버에 연결되어 있지 않습니다.</p></details>
+      <details><summary>이탈도가 높으면 건강에 문제가 있나요?</summary><p>이탈도는 참조 분포와의 음향적 차이입니다. 질병 위험도나 중증도가 아니므로 이 수치만으로 건강 상태를 판단할 수 없습니다.</p></details>
+      <details><summary>COUGHVID는 어떤 역할을 하나요?</summary><p>초기 연구용 참조 분포를 구성하는 기침 음향 데이터입니다. 현재의 공개 데이터 기반 분포와, 향후 사용자 데이터로 만들 개인별 분포는 구분합니다. 데이터의 라벨은 임상적 정상 기준을 뜻하지 않습니다.</p></details>
+      <details><summary>웨어러블도 지금 사용할 수 있나요?</summary><p>8월 26일 수행일지에는 MCU 보드 테스트가 기록되어 있습니다. 기침 이벤트 감지, BLE 연동과 통합 테스트는 개발·확장 과제이며, 공개 배포된 웨어러블 제품은 아닙니다.</p></details>
+      <details><summary>산업용 음향 분석도 이미 사용할 수 있나요?</summary><p>아직 향후 확장 계획입니다. 8월 26일 수행일지에는 기계음 데이터 확보, AI 학습, 산업용 대시보드·서버 테스트와 하드웨어 제작 계획이 담겨 있습니다. 완료된 기능이나 상용 서비스로 소개하지 않습니다.</p></details>
+      <details><summary>GitHub에는 어떤 내용이 있나요?</summary><p>프로젝트 소개 README와 이 정적 웹페이지가 있습니다. 모바일 앱이나 AI 분석 서버의 실행 코드를 배포하는 저장소는 아닙니다. <a href="https://github.com/ShinCssyou/anima" target="_blank" rel="noopener noreferrer">저장소 보기 ↗</a></p></details>
+    </div></div>
+  </section>
+</main>
+<footer class="footer"><div class="wrap"><div class="footer-top"><div><div class="footer-wordmark">ANIMA.</div><p>기침의 변화를, 기록으로 읽다.</p></div><div class="footer-links"><a href="https://github.com/ShinCssyou/anima" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.nature.com/articles/s41597-021-00937-4" target="_blank" rel="noopener noreferrer">COUGHVID 논문 ↗</a><a href="#notice">연구 및 사용 안내</a><a href="#top">맨 위로 ↑</a></div></div><div class="footer-bottom"><span>© 2026 ANIMA Team<br>자료 기준: 수행일지 2026.08.26 · 중간발표</span><span>RECORD · COMPARE · REVIEW</span><span>Research & education prototype</span></div></div></footer>
+<script>
+  // All diagrams are deterministic conceptual illustrations, never measured health data.
+  const ns = 'http://www.w3.org/2000/svg';
+  function svgElement(tag, attributes) { const element = document.createElementNS(ns, tag); Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value)); return element; }
+  const bars = document.getElementById('wave-bars');
+  for (let i = 0; i < 97; i++) {
+    const x = 22 + i * 4.3;
+    const burst = Math.exp(-Math.pow((i - 34) / 12, 2)) * 95 + Math.exp(-Math.pow((i - 67) / 9, 2)) * 55;
+    const amplitude = 2.5 + burst * (.25 + .75 * Math.abs(Math.sin(i * 1.87)));
+    bars.append(svgElement('line', {x1:x,y1:130-amplitude,x2:x,y2:130+amplitude}));
+  }
+  const spectrum = document.getElementById('spectrum-cells');
+  for (let row = 0; row < 17; row++) for (let col = 0; col < 39; col++) {
+    const energy = Math.exp(-Math.pow((col - 14) / 7, 2)) + .6 * Math.exp(-Math.pow((col - 27) / 4, 2));
+    const opacity = .04 + Math.min(.9,energy * (.15 + .72 * Math.abs(Math.sin(row * 1.42 + col * .63))) * (.3 + row / 21));
+    spectrum.append(svgElement('rect', {x:22+col*10.7,y:32+row*11.3,width:9,height:9.4,rx:1,fill:'#2455ed',opacity}));
+  }
+  const cloud = document.getElementById('reference-dots');
+  for (let i = 0; i < 39; i++) { const angle = i * 2.399; const radius = Math.sqrt((i + .5) / 39); const dx = Math.cos(angle)*105*radius; const dy = Math.sin(angle)*43*radius; cloud.append(svgElement('circle',{cx:190+dx*.906+dy*.423,cy:127-dx*.423+dy*.906,r:2.6})); }
+  const views = {signal:['01. 소리를 기록하다','시간에 따른 파형'],frequency:['02. 특징을 읽다','시간과 주파수의 관계'],history:['03. 변화를 살펴보다','여러 시점의 기록 비교']};
+  document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
+    const view = button.dataset.view;
+    document.querySelectorAll('[data-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    Object.keys(views).forEach(key => { document.getElementById(key+'-view').hidden = key !== view; });
+    document.getElementById('diagram-title').textContent = views[view][0];
+    document.getElementById('diagram-subtitle').textContent = views[view][1];
+  }));
+  const menuButton = document.querySelector('.menu-toggle');
+  const navigation = document.getElementById('navigation');
+  function closeMenu() { menuButton.setAttribute('aria-expanded','false'); navigation.classList.remove('is-open'); }
+  menuButton.addEventListener('click', () => { const open = menuButton.getAttribute('aria-expanded') !== 'true'; menuButton.setAttribute('aria-expanded',String(open)); navigation.classList.toggle('is-open',open); });
+  navigation.querySelectorAll('a').forEach(link => link.addEventListener('click',closeMenu));
+  document.addEventListener('keydown', event => { if(event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); menuButton.focus(); } });
+</script>
 </body>
 </html>
