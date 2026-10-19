@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#2455ed">
-  <meta name="description" content="ANiMA는 기침 음향의 변화를 기록하는 프로젝트입니다. 2026년 2학기 발표자료를 바탕으로 앱과 웹 분석, 대시보드 데모, 모델 성능과 개발 방향을 소개합니다.">
+  <meta name="description" content="ANiMA는 기침 음향의 변화를 기록하는 프로젝트입니다. 2026년 최종 발표자료를 바탕으로 웹 분석, 대시보드 실측 연동, 데스크탑 서버와 앱 출시 준비 현황을 소개합니다.">
   <title>ANiMA — 기침의 변화를, 일상의 기록으로</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232455ed'/%3E%3Cpath d='M13 35h7l5-17 9 30 7-23 5 10h5' fill='none' stroke='white' stroke-width='5' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
@@ -47,6 +47,9 @@
     @media(max-width:740px){.hero{padding-top:36px}.hero h1{font-size:clamp(38px,8.6vw,56px)}.hero-grid{gap:30px}.service-grid{gap:14px}.service-card{padding:20px 17px}.service-card h3{font-size:20px}.service-card p{font-size:13px}.direction-banner,.feature-dashboard,.app-feature{grid-template-columns:1fr;gap:22px}.direction-banner{padding:25px}.web-gallery{grid-template-columns:1fr;gap:30px}.web-shot>a{aspect-ratio:1.6}.feature-dashboard{margin-top:38px;padding-top:34px}.app-feature{padding:25px}.app-feature h3{font-size:25px}.stat-grid{gap:15px}.stat strong{font-size:clamp(32px,8vw,48px);letter-spacing:-1.5px}.stat span{font-size:14px}.dataset-line{gap:12px;padding:18px}.server-path{grid-template-columns:1fr 1fr;gap:27px 20px}.roadmap-grid{grid-template-columns:1fr}.timeline{grid-template-columns:1fr 1fr}.navlinks a{font-size:16px}.archive-content .screen-visual{height:auto}.archive-content .screen-visual img{max-height:500px}}
     @media(max-width:400px){.service-grid{grid-template-columns:1fr}.service-card{padding:23px}.service-card h3{margin-top:13px}.service-card p{font-size:14px}.timeline{grid-template-columns:1fr}.stat strong{font-size:32px}.stat span{font-size:12px}.server-path{grid-template-columns:1fr}.app-flow{grid-template-columns:1fr}}
 
+
+    .final-gallery{row-gap:34px}.final-gallery .web-shot>a{aspect-ratio:1.25;background:#fffbf2;padding:15px}.final-gallery .web-shot img{object-fit:contain}.dashboard-flow{background:#142953;color:#fff;padding:30px;border-radius:8px}.flow-heading{display:flex;justify-content:space-between;align-items:center;gap:16px;font:11px/1.6 var(--mono);color:#cad9fc}.flow-heading b{color:#b3efd2;font-size:12px;font-weight:600;white-space:nowrap}.data-flow{list-style:none;margin:24px 0;padding:0}.data-flow li{display:flex;gap:20px;align-items:center;padding:20px 0;border-top:1px solid #3d547b}.data-flow li>span{font:12px var(--mono);color:#aabfe9}.data-flow strong{display:block;font-size:18px}.data-flow small{display:block;margin-top:5px;font-size:12px;color:#c7d6f2}.flow-foot{display:flex;gap:22px;align-items:center;border-top:1px solid #3d547b;padding-top:22px}.flow-foot strong{font-size:42px;line-height:1}.flow-foot span{font-size:13px;color:#c7d6f2}.dashboard-flow>p{font-size:11px;color:#aabfe9;margin:20px 0 0}.release-status{margin-top:30px;padding:28px 0;border-top:1px solid var(--line)}.release-status h3{font-size:22px;margin:0 0 22px}.release-flow{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}.release-flow li{border-top:1px solid var(--line);padding-top:16px}.release-flow strong{display:block;font-size:15px;margin-top:12px}.evaluation-detail{display:flex;flex-wrap:wrap;gap:14px 30px;margin-top:27px;color:#d6e0f7;font-size:14px}.evaluation-detail strong{color:#fff}.inference-note{display:flex;align-items:center;gap:42px;margin-top:40px;padding:26px 0;border-top:1px solid #7d9df4;border-bottom:1px solid #7d9df4}.inference-note div>span{display:block;font-size:12px;color:#e1e9ff}.inference-note strong{display:block;font-size:38px;margin-top:6px;letter-spacing:-1px}.time-arrow{font-size:29px;color:#d7e2ff}.final-roadmap{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media(max-width:740px){.release-flow{grid-template-columns:1fr 1fr}.dashboard-flow{padding:24px}.final-roadmap{grid-template-columns:1fr}.inference-note{gap:20px}.inference-note strong{font-size:31px}.final-gallery .web-shot>a{aspect-ratio:1.15}.feature-dashboard h3{font-size:27px}}
   </style>
 </head>
 <body id="top">
@@ -59,7 +62,7 @@
 <main id="main">
 <section class="hero" aria-labelledby="hero-title"><div class="wrap">
   <div class="hero-grid"><div>
-    <div class="release-pill"><span class="dot" aria-hidden="true"></span>2026년 2학기 · 앱과 웹에 집중</div>
+    <div class="release-pill"><span class="dot" aria-hidden="true"></span>2026 최종 발표 · 실측 데이터 연동 완료</div>
     <div class="eyebrow">Cough acoustic research</div>
     <h1 id="hero-title">기침의 변화를,<br><em>일상의 기록으로.</em></h1>
     <p class="hero-copy">앱과 웹으로 기침 소리를 분석하고,<br>그날의 상황과 지난 기록을 함께 살펴봅니다.<br>ANiMA는 소리의 차이를 기록하는 프로젝트입니다.</p>
@@ -79,32 +82,29 @@
         </div>
 
   </div>
-  <div class="hero-strip"><div><span>01 / APP</span><p><b>앱에서 쌓는 기록</b>동작 · 실사용 테스트 중</p></div><div><span>02 / WEB</span><p><b>브라우저에서 분석</b>앱 설치 없이 이용하는 웹</p></div><div><span>03 / DASHBOARD</span><p><b>여러 기록을 한눈에</b>기관용 대시보드 데모</p></div></div>
+  <div class="hero-strip"><div><span>01 / APP</span><p><b>앱에서 쌓는 기록</b>Google Play 출시 준비 중</p></div><div><span>02 / WEB</span><p><b>브라우저에서 분석</b>앱 설치 없이 이용하는 웹</p></div><div><span>03 / DASHBOARD</span><p><b>여러 기록을 한눈에</b>팀원 실측 데이터 연동</p></div></div>
 </div></section>
 
 <section class="section" id="services"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">01 / Where we are</div><h2>기록하는 앱에서,<br>분석하는 웹까지.</h2></div><p class="section-intro">2학기에는 이미 동작하는 기능을 다듬고 있습니다. 앱, 웹 분석, 대시보드와 소개 페이지의 현재 단계를 구분해 소개합니다.</p></div>
+  <div class="section-top"><div><div class="eyebrow">01 / Where we are</div><h2>기록하는 앱에서,<br>분석하는 웹까지.</h2></div><p class="section-intro">최종 발표에서는 측정 결과를 서버 DB와 대시보드까지 연결했습니다. 앱 출시 준비와 개인 맞춤 기준 개발도 이어가고 있습니다.</p></div>
   <div class="service-grid">
-    <article class="service-card"><span class="status-label">동작 · 테스트 중</span><h3>ANiMA 앱</h3><p>기침 녹음, 분석 결과, 그날의 상황 기록, 히스토리와 PDF 리포트로 이어집니다.</p><small>FLUTTER · LOCAL DB</small></article>
-    <article class="service-card"><span class="status-label">동작</span><h3>웹 분석</h3><p>앱을 설치하지 않고 브라우저에서 기침 소리를 입력하고 분석하는 기능입니다.</p><small>BROWSER EXPERIENCE</small></article>
-    <article class="service-card"><span class="status-label demo">데모 데이터</span><h3>기관용 대시보드</h3><p>여러 사람의 기록과 표시 상태를 한 화면에서 살펴봅니다. 실데이터 연동은 검토 단계입니다.</p><small>MULTI-USER DEMO</small></article>
+    <article class="service-card"><span class="status-label">출시 준비 중</span><h3>ANiMA 앱</h3><p>녹음부터 히스토리·PDF 리포트까지 구현했습니다. 개발자 계정 승인을 마치고 앱 코드를 최종 점검하고 있습니다.</p><small>FLUTTER · LOCAL DB</small></article>
+    <article class="service-card"><span class="status-label">동작</span><h3>웹 분석</h3><p>앱 설치와 로그인 없이 기침을 녹음하고, 복약 여부를 입력한 뒤 결과를 확인합니다.</p><small>BROWSER EXPERIENCE</small></article>
+    <article class="service-card"><span class="status-label">실측 연동 완료</span><h3>기관용 대시보드</h3><p>서버 DB와 연결해 팀원 4명의 측정값으로 테스트했습니다. 실제 기관 도입 전 단계입니다.</p><small>NEXT.JS · SERVER DB</small></article>
     <article class="service-card"><span class="status-label public">공개</span><h3>프로젝트 소개</h3><p>지금 보고 있는 페이지입니다. 구현 화면, 분석 과정, 개발 기록과 팀을 소개합니다.</p><small>GITHUB PAGES</small></article>
   </div>
-  <div class="direction-banner"><div><small>2026 / CHANGE OF DIRECTION</small><h3>앱과 웹의 완성도에<br>집중합니다.</h3></div><div><p>1학기의 앱·하드웨어 계획에서 방향을 조정했습니다. <strong>2학기에는 하드웨어 개발을 중단</strong>하고, 동작하는 앱과 웹의 사용 경험을 개선하는 데 집중합니다.</p><p class="source-note">2026년 2학기 발표자료 · 현재 구성 및 방향 전환</p></div></div>
+  <div class="direction-banner"><div><small>2026 / CHANGE OF DIRECTION</small><h3>앱과 웹의 완성도에<br>집중합니다.</h3></div><div><p>1학기의 앱·하드웨어 계획에서 방향을 조정했습니다. <strong>2학기에는 하드웨어 개발을 중단</strong>하고, 동작하는 앱과 웹의 사용 경험을 개선하는 데 집중합니다.</p><p class="source-note">최종 발표자료 14쪽 · 앱·웹에 집중하는 개발 방향</p></div></div>
 </div></section>
 
 <section class="section experience" id="experience"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">02 / Inside the prototype</div><h2>새로운 화면으로 만나는<br>ANiMA의 현재.</h2></div><p class="section-intro">2학기 발표자료에 담긴 웹 분석과 대시보드 화면입니다. 이미지를 누르면 원본 크기로 볼 수 있습니다.</p></div>
-  <div class="web-gallery">
-    <figure class="web-shot"><a href="assets/web-home.jpg" target="_blank" rel="noopener noreferrer" aria-label="웹 분석 시작 화면 원본 보기"><img src="assets/web-home.jpg" width="1422" height="892" loading="lazy" alt="2학기 발표자료의 ANiMA 웹 시작 화면"></a><figcaption><small>01 / START</small><h3>웹에서 시작하기</h3><p>기침을 기록하고 분석하는 기능으로 안내합니다.</p></figcaption></figure>
-    <figure class="web-shot"><a href="assets/web-recording.jpg" target="_blank" rel="noopener noreferrer" aria-label="웹 녹음 화면 원본 보기"><img src="assets/web-recording.jpg" width="1257" height="700" loading="lazy" alt="2학기 발표자료의 브라우저 기침 녹음 화면"></a><figcaption><small>02 / RECORD</small><h3>브라우저에서 녹음</h3><p>별도 앱 설치 없이 음성을 입력하는 화면입니다.</p></figcaption></figure>
-    <figure class="web-shot"><a href="assets/web-result.jpg" target="_blank" rel="noopener noreferrer" aria-label="웹 분석 결과 화면 원본 보기"><img src="assets/web-result.jpg" width="1066" height="855" loading="lazy" alt="2학기 발표자료의 웹 분석 결과 시연 화면. 표시된 값은 예시입니다."></a><figcaption><small>03 / RESULT</small><h3>분석 결과 확인</h3><p>입력한 기침의 분석 결과를 웹에서 확인합니다.</p></figcaption></figure>
+  <div class="section-top"><div><div class="eyebrow">02 / Inside the prototype</div><h2>새로운 화면으로 만나는<br>ANiMA의 현재.</h2></div><p class="section-intro">최종 발표자료의 웹 화면을 따라 녹음부터 결과 확인까지 살펴봅니다. 이미지를 누르면 원본 크기로 볼 수 있습니다.</p></div>
+  <div class="web-gallery final-gallery"><figure class="web-shot"><a href="assets/final-web-home.png" target="_blank" rel="noopener noreferrer" aria-label="웹에서 시작하기 원본 보기"><img src="assets/final-web-home.png" width="1467" height="685" loading="lazy" alt="최종 발표자료의 웹에서 시작하기 화면"></a><figcaption><small>01 / START</small><h3>웹에서 시작하기</h3><p>설치와 로그인 없이 웹 분석을 시작합니다.</p></figcaption></figure><figure class="web-shot"><a href="assets/final-web-ready.png" target="_blank" rel="noopener noreferrer" aria-label="녹음 준비 원본 보기"><img src="assets/final-web-ready.png" width="523" height="569" loading="lazy" alt="최종 발표자료의 녹음 준비 화면"></a><figcaption><small>02 / READY</small><h3>녹음 준비</h3><p>조용한 환경에서 녹음 버튼을 누릅니다.</p></figcaption></figure><figure class="web-shot"><a href="assets/final-web-recording.png" target="_blank" rel="noopener noreferrer" aria-label="기침 소리 녹음 원본 보기"><img src="assets/final-web-recording.png" width="448" height="543" loading="lazy" alt="최종 발표자료의 기침 소리 녹음 화면"></a><figcaption><small>03 / RECORD</small><h3>기침 소리 녹음</h3><p>발표자료에서는 3초 이상 녹음하도록 안내합니다.</p></figcaption></figure><figure class="web-shot"><a href="assets/final-web-review.png" target="_blank" rel="noopener noreferrer" aria-label="녹음 다시 듣기 원본 보기"><img src="assets/final-web-review.png" width="520" height="500" loading="lazy" alt="최종 발표자료의 녹음 다시 듣기 화면"></a><figcaption><small>04 / REVIEW</small><h3>녹음 다시 듣기</h3><p>기침 소리를 확인하고 필요하면 다시 녹음합니다.</p></figcaption></figure><figure class="web-shot"><a href="assets/final-web-medication.png" target="_blank" rel="noopener noreferrer" aria-label="복약 여부 입력 원본 보기"><img src="assets/final-web-medication.png" width="322" height="261" loading="lazy" alt="최종 발표자료의 복약 여부 입력 화면"></a><figcaption><small>05 / CONTEXT</small><h3>복약 여부 입력</h3><p>복용 중인 약이 있는지 입력하는 단계입니다.</p></figcaption></figure><figure class="web-shot"><a href="assets/final-web-result.png" target="_blank" rel="noopener noreferrer" aria-label="분석 결과 확인 원본 보기"><img src="assets/final-web-result.png" width="408" height="784" loading="lazy" alt="최종 발표자료의 분석 결과 확인 화면"></a><figcaption><small>06 / RESULT</small><h3>분석 결과 확인</h3><p>이탈도와 구간을 확인하고 녹음한 소리를 다시 듣습니다.</p></figcaption></figure></div>
+  <p class="source-note">최종 발표자료 18쪽 · 자료에 수록된 화면을 소개하며, 이 홈페이지에서 직접 녹음하거나 분석하지 않습니다.</p>
+  <div class="feature-dashboard" id="dashboard"><div><span class="status-label">기관용 대시보드 · 실측 연동 완료</span><h3>측정한 기록이<br>대시보드에 이어집니다.</h3><p>서버 DB 연동을 마쳤습니다. 앱을 설치한 팀원 4명이 9월 1일부터 10월 14일까지 직접 측정한 데이터로 연결을 테스트했습니다.</p><p><strong>현재는 팀원 테스트 단계입니다.</strong> 실제 기관 도입은 아직 진행하지 않았습니다.</p><a class="text-link" href="https://animawith.cloud" target="_blank" rel="noopener noreferrer">발표자료의 서비스 주소 ↗</a></div>
+    <div class="dashboard-flow" aria-label="측정부터 대시보드 반영까지의 연결 구조"><div class="flow-heading"><span>ANiMA / CONNECTED RECORDS</span><b>연동 완료</b></div><ol class="data-flow"><li><span>01</span><div><strong>앱 · 웹에서 측정</strong><small>기침 녹음과 분석 요청</small></div></li><li><span>02</span><div><strong>서버 분석 · 연동 기록 저장</strong><small>FastAPI · CNN · 마할라노비스 거리</small></div></li><li><span>03</span><div><strong>기관용 대시보드 반영</strong><small>전체 현황 · 등록 및 배정 관리</small></div></li></ol><div class="flow-foot"><strong>4명</strong><span>팀원 실측 연동 테스트<br>2026.09.01–10.14</span></div><p>연결 구조를 설명하는 도식 · 개인별 측정값은 표시하지 않습니다.</p></div>
   </div>
-  <p class="source-note">2026년 2학기 발표자료의 웹 분석 화면 · 표시된 수치와 상태는 시연 예시입니다.</p>
-  <div class="feature-dashboard"><div><span class="status-label demo">기관용 대시보드 · 데모</span><h3>여러 사람의 기록을<br>한 화면에서 살펴봅니다.</h3><p>전체 현황, 개별 기록과 상태 표시를 한눈에 확인하는 대시보드입니다. 발표자료에서는 체크 결과와 업데이트를 보여주는 데모 화면으로 소개했습니다.</p><p><strong>현재 화면은 데모 데이터입니다.</strong> 실제 데이터와의 연동은 앞으로 검토할 항목입니다.</p><a class="text-link" href="https://animawith.cloud" target="_blank" rel="noopener noreferrer">발표자료의 서비스 주소 ↗</a></div>
-    <figure class="dashboard-picture"><a href="assets/dashboard-demo.jpg" target="_blank" rel="noopener noreferrer" aria-label="기관용 대시보드 데모 원본 보기"><img src="assets/dashboard-demo.jpg" width="1900" height="906" loading="lazy" alt="ANiMA HUB 기관용 대시보드. 예시 데이터로 전체 현황과 기록을 보여주는 데모 화면입니다."></a><figcaption>ANiMA HUB · 2학기 발표자료에 수록된 데모 데이터 화면</figcaption></figure>
-  </div>
-  <div class="app-feature"><div><span class="status-label">Flutter 앱 · 실사용 테스트 중</span><h3>소리와 그날의 상황을<br>함께 남기는 앱.</h3><p>로컬 DB를 사용하는 앱에서 기록을 쌓고 다시 살펴보는 흐름을 구현했습니다. 사용성 개선 후 앱 출시를 계획하고 있습니다.</p><a class="text-link" href="https://youtu.be/A5rlcgK2Vp8" target="_blank" rel="noopener noreferrer">발표자료의 앱 시연 영상 ↗</a></div><ol class="app-flow"><li><span>01 / RECORD</span>기침 소리 녹음</li><li><span>02 / ANALYZE</span>분석 결과와 표시 상태 확인</li><li><span>03 / CONTEXT</span>그날의 상황 기록</li><li><span>04 / REVIEW</span>히스토리와 PDF 리포트</li></ol></div>
+  <div class="app-feature"><div><span class="status-label">Flutter 앱 · 출시 준비 중</span><h3>소리와 그날의 상황을<br>함께 남기는 앱.</h3><p>앱에서 그날의 상황과 측정 이력을 기록하고 PDF로 살펴봅니다. 기종별 화면 문제는 반응형 레이아웃으로 수정했으며, 현재 앱 코드를 최종 점검하고 있습니다.</p><a class="text-link" href="https://youtu.be/A5rlcgK2Vp8" target="_blank" rel="noopener noreferrer">이전 자료의 앱 시연 영상 ↗</a></div><ol class="app-flow"><li><span>01 / RECORD</span>기침 소리 녹음</li><li><span>02 / ANALYZE</span>분석 결과와 표시 상태 확인</li><li><span>03 / CONTEXT</span>그날의 상황 기록</li><li><span>04 / REVIEW</span>히스토리와 PDF 리포트</li></ol></div>
+  <div class="release-status"><h3>Google Play 출시 준비</h3><ol class="release-flow"><li><span class="status-label">완료</span><strong>개발자 계정 승인</strong></li><li><span class="status-label public">진행 중</span><strong>앱 코드 최종 점검</strong></li><li><span class="status-label demo">예정</span><strong>업로드 · 14일 테스트</strong></li><li><span class="status-label demo">예정</span><strong>정식 출시</strong></li></ol><p class="source-note">최종 발표자료 25쪽의 팀 계획 · 현재 정식 출시 전이며, 스토어 설치 링크는 아직 제공하지 않습니다.</p></div>
   <details class="app-archive"><summary>앱 상세 화면과 PDF 보고서 예시 펼치기 · 이전 중간발표 자료</summary><div class="archive-content">
     <div class="screen-grid">
       <figure class="screen-card"><a class="screen-visual" href="assets/app-recording.png" target="_blank" rel="noopener noreferrer"><img src="assets/app-recording.png" width="311" height="609" loading="lazy" alt="이전 중간발표의 앱 녹음 화면"></a><figcaption><h3>기침 소리 녹음</h3></figcaption></figure>
@@ -119,57 +119,60 @@
   <div class="phase-strip"><div><small>STAGE 1 / DETECTION</small><strong>이 소리는 기침인가요?</strong><p>STFT 스펙트로그램을 2D CNN 모델로 판별합니다.</p></div><div><small>STAGE 2 / DIFFERENCE</small><strong>참조 기침과 얼마나 다른가요?</strong><p>특징을 추출해 마할라노비스 거리와 이탈도를 계산합니다.</p></div></div>
   <div class="steps">
     <article class="step"><div class="step-no">01</div><h3>소리 입력</h3><p>앱이나 웹에서 기침 소리를 입력합니다. 기록의 출발점이 되는 음향을 확보합니다.</p><small>AUDIO INPUT</small></article>
-    <article class="step"><div class="step-no">02</div><h3>전처리·품질 확인</h3><p>분석에 맞게 음성을 정리하고, 입력한 녹음의 품질을 확인합니다.</p><small>PREPROCESSING</small></article>
+    <article class="step"><div class="step-no">02</div><h3>전처리·품질 확인</h3><p>음성을 16kHz 모노로 표준화하고, 입력한 녹음의 품질을 확인합니다.</p><small>PREPROCESSING</small></article>
     <article class="step"><div class="step-no">03</div><h3>스펙트로그램</h3><p>STFT로 소리를 시간과 주파수 정보로 바꿔 모델이 읽을 수 있는 형태로 표현합니다.</p><small>STFT / SPECTROGRAM</small></article>
-    <article class="step"><div class="step-no">04</div><h3>기침 여부 판별</h3><p>2D CNN 모델이 입력을 기침과 비기침으로 구분합니다.</p><small>COUGH / NON-COUGH</small></article>
-    <article class="step"><div class="step-no">05</div><h3>참조 분포와 비교</h3><p>기침의 음향 특징과 연구용 참조 분포 사이의 마할라노비스 거리를 계산합니다.</p><small>MAHALANOBIS DISTANCE</small></article>
+    <article class="step"><div class="step-no">04</div><h3>기침 여부 판별</h3><p>2D CNN이 기침 여부와 확률을 계산하고, 음향 특징을 64개의 숫자로 요약합니다.</p><small>COUGH / NON-COUGH</small></article>
+    <article class="step"><div class="step-no">05</div><h3>참조 분포와 비교</h3><p>기침으로 판별되면 64차원 임베딩을 무증상 기침 기준 705개와 비교합니다.</p><small>MAHALANOBIS DISTANCE</small></article>
     <article class="step"><div class="step-no">06</div><h3>결과와 기록 확인</h3><p>이탈도와 신뢰도를 확인하고, 앱에서는 상황 기록·히스토리·PDF로 이어집니다.</p><small>RESULT / HISTORY</small></article>
   </div>
 </div></section>
 
 <section class="section performance" id="performance"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">04 / Internal experiment</div><h2>기침과 비기침을 구분하는<br>모델의 자체 실험 결과.</h2></div><p class="section-intro">2학기 발표자료에서 보고한 분류 성능입니다. 기침 소리를 구분하는 모델의 결과로 읽어야 합니다.</p></div>
+  <div class="section-top"><div><div class="eyebrow">04 / Internal experiment</div><h2>기침과 비기침을 구분하는<br>모델의 자체 실험 결과.</h2></div><p class="section-intro">테스트 표본 2,911개, 임계값 0.5에서 보고한 기침·비기침 분류 결과입니다.</p></div>
   <div class="stat-grid"><div class="stat"><strong>95.3%</strong><span>정확도</span><small>ACCURACY</small></div><div class="stat"><strong>96.1%</strong><span>F1 스코어</span><small>F1 SCORE</small></div><div class="stat"><strong>0.983</strong><span>AUC</span><small>발표자료 표기 98.3%</small></div></div>
+  <div class="evaluation-detail"><span>민감도 <strong>98.2%</strong></span><span>특이도 <strong>91.0%</strong></span><span>테스트 <strong>2,911개</strong></span><span>임계값 <strong>0.5</strong></span></div>
   <div class="dataset-line"><span>기침 <b>약 17,000개</b> · COUGHVID</span><span>비기침 <b>약 11,000개</b> · 팀원 녹음</span></div>
-  <p class="source-note">출처: 2026년 2학기 발표자료, 모델 성능. 자체 기침·비기침 분류 실험 결과이며 질병 진단 정확도나 변화 감지의 임상 성능이 아닙니다. 학습·평가 데이터 분리 방식과 외부 검증 결과는 해당 자료에 제시되지 않았습니다.</p>
+  <p class="source-note">출처: 최종 발표자료 12쪽. 자체 기침·비기침 분류 실험 결과입니다. 질병 진단이나 개인 변화 감지의 임상 성능을 뜻하지 않습니다. 표본 분리의 상세 방식과 외부 검증 결과는 자료에 제시되지 않았습니다.</p>
 </div></section>
 
 <section class="section" id="research"><div class="wrap">
   <div class="section-top"><div><div class="eyebrow">05 / Read the result</div><h2>이탈도와 신뢰도는<br>서로 다른 질문에 답합니다.</h2></div><p class="section-intro">소리가 참조 분포와 얼마나 다른지, 입력한 분석 결과를 어떻게 살펴볼지 구분합니다.</p></div>
-  <div class="research-grid"><div><div class="reference-panel"><div class="eyebrow">Reference distribution</div><h3>소리의 비교 기준</h3><p>현재는 연구용 기침 참조 분포와 비교합니다. COUGHVID를 활용하며, 이전 개발 기록에는 <code>healthy_cough</code> 표본으로 참조 분포를 구성하는 과정이 담겨 있습니다.</p>
+  <div class="research-grid"><div><div class="reference-panel"><div class="eyebrow">Reference distribution</div><h3>소리의 비교 기준</h3><p>현재 비교 기준은 COUGHVID의 <code>healthy_cough</code> <strong>705개</strong>입니다. 최종 자료에서는 의사가 질병 소견이 없다고 본 기침 표본을 기준 분포로 사용한다고 설명합니다.</p>
 <svg viewBox="0 0 440 235" role="img" aria-label="참조 표본의 분포와 비교 대상의 위치를 설명하는 개념도. 실제 데이터나 계산 결과가 아닙니다."><path d="M27 202H424M27 202V17" fill="none" stroke="#acbddd"/><g fill="#2455ed" fill-opacity=".035" stroke="#2455ed" stroke-opacity=".25"><ellipse cx="190" cy="127" rx="123" ry="64" transform="rotate(-25 190 127)"/><ellipse cx="190" cy="127" rx="83" ry="43" transform="rotate(-25 190 127)"/><ellipse cx="190" cy="127" rx="44" ry="23" transform="rotate(-25 190 127)"/></g><g id="reference-dots" fill="#2455ed" opacity=".7"></g><path d="M190 127L352 51" stroke="#1b283e" stroke-dasharray="4 5"/><circle cx="352" cy="51" r="6" fill="white" stroke="#1b283e" stroke-width="2"/><text x="365" y="48" font-size="12" fill="#34415b">비교 대상</text><text x="304" y="227" font-size="11" fill="#5d6c86">설명용 개념도</text></svg>
-    <div class="legend"><span><i></i>참조 음향 특징</span><span><i class="outlined"></i>분석 대상 특징</span></div></div><p class="data-note">그림은 설명용 개념도입니다. 개인별 기록을 바탕으로 만드는 맞춤 기준 분포는 향후 계획이며, 현재 기능과 구분합니다.</p></div>
+    <div class="legend"><span><i></i>참조 음향 특징</span><span><i class="outlined"></i>분석 대상 특징</span></div></div><p class="data-note">그림은 설명용 개념도입니다. 개인 맞춤 기준은 구조 설계를 마치고 개인 데이터를 수집하는 단계입니다. 현재 분석에는 집단 기준을 사용합니다.</p></div>
     <div><dl class="metrics">
-      <div class="metric"><dt><small>DEVIATION / 0–100%</small>이탈도</dt><dd>참조 기침 분포와의 거리를 0–100% 값으로 표현합니다. 음향적 차이를 나타내며, 특정 질환이 있을 확률이나 중증도를 뜻하지 않습니다.</dd></div>
-      <div class="metric"><dt><small>COMBINED CONFIDENCE</small>신뢰도</dt><dd>2학기 발표자료에서는 <strong>기침일 확률 × 0.7 + 녹음 품질 × 0.3</strong>으로 설명합니다. 기침 판별 확률과 녹음 품질을 결합한 값입니다.</dd></div>
+      <div class="metric"><dt><small>DEVIATION / 0–100</small>이탈도</dt><dd>64차원 임베딩의 마할라노비스 거리를 백분위 기반 0–100 값으로 변환합니다. 공분산 정규화는 1e-3을 사용합니다. 이탈도는 음향적 차이이며, 질환 확률이나 중증도를 뜻하지 않습니다.</dd></div>
+      <div class="metric"><dt><small>COMBINED CONFIDENCE</small>신뢰도</dt><dd>최종 발표자료에서는 <strong>기침일 확률 × 0.7 + 녹음 품질 × 0.3</strong>으로 설명합니다. 기침 판별 확률과 녹음 품질을 결합한 값입니다.</dd></div>
       <div class="metric"><dt><small>COUGH PROBABILITY / QUALITY</small>기침 판별 확률과 녹음 품질</dt><dd>모델이 입력을 기침으로 판단한 정도와 녹음 조건을 나타내는 서로 다른 요소입니다. 건강 상태를 평가하는 점수로 해석하지 않습니다.</dd></div>
     </dl><div class="score-explainer"><p><strong>앱의 결과 표시</strong></p><div class="result-labels"><span>양호</span><span>주의</span><span>경고</span></div><p>프로토타입에서 사용하는 이탈도 표시 단계입니다. 임상적 건강 상태나 질병 위험도 등급으로 사용할 수 없습니다.</p></div></div>
   </div>
 </div></section>
 
 <section class="section architecture" id="system"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">06 / Infrastructure</div><h2>분석을 이어가기 위해,<br>실행 환경도 바꿨습니다.</h2></div><p class="section-intro">서버의 메모리와 실행 제약을 거치며, 현재는 태블릿 기반 서버와 Cloudflare Tunnel을 연결하는 구성으로 옮겼습니다.</p></div>
-  <div class="server-path"><article class="server-stop"><small>01 / EARLIER</small><h3>Render</h3><p>메모리 부족과 슬립으로 실행 환경의 제약을 확인했습니다.</p></article><article class="server-stop"><small>02 / EARLIER</small><h3>Oracle Cloud</h3><p>1코어·1GB 환경의 자원 한계를 겪었습니다.</p></article><article class="server-stop current"><small>03 / CURRENT</small><h3>태블릿 서버</h3><p>Termux와 Ubuntu 환경을 사용합니다.</p></article><article class="server-stop current"><small>04 / CONNECTION</small><h3>animawith.cloud</h3><p>Cloudflare Tunnel을 통해 서비스 주소와 연결합니다.</p></article></div>
-  <div class="stack-tags"><span>FastAPI</span><span>Uvicorn</span><span>Ubuntu 24.04</span><span>Docker</span><span>Termux</span><span>Cloudflare Tunnel</span></div>
-  <p class="arch-note">2026년 2학기 발표자료의 서버 구성 기준 · 이 소개 페이지는 GitHub Pages에서 제공되며, 기침 음성을 직접 수집하거나 분석하지 않습니다.</p>
+  <div class="section-top"><div><div class="eyebrow">06 / Infrastructure</div><h2>분석을 이어가기 위해,<br>실행 환경도 바꿨습니다.</h2></div><p class="section-intro">데스크탑에 서버를 직접 구축하고 웹과 분석 API를 함께 운영합니다. 서버 추론 시간은 기존 10초 이상에서 약 1초로 줄었다고 보고했습니다.</p></div>
+  <div class="server-path"><article class="server-stop"><small>01 / EARLIER</small><h3>Render</h3><p>메모리 부족과 슬립으로 실행 환경의 제약을 확인했습니다.</p></article><article class="server-stop"><small>02 / EARLIER</small><h3>Oracle Cloud</h3><p>1코어·1GB 환경의 자원 한계를 겪었습니다.</p></article><article class="server-stop current"><small>03 / CURRENT</small><h3>데스크탑 서버</h3><p>i5-10600K · RAM 32GB<br>GTX 1660 SUPER</p></article><article class="server-stop current"><small>04 / CONNECTION</small><h3>animawith.cloud</h3><p>Cloudflare Tunnel을 통해 서비스 주소와 연결합니다.</p></article></div>
+  <div class="stack-tags"><span>FastAPI</span><span>Uvicorn</span><span>Ubuntu 24.04</span><span>Docker</span><span>Cloudflare Tunnel</span></div>
+  <div class="inference-note"><div><span>기존 서버 추론</span><strong>10초 이상</strong></div><span class="time-arrow" aria-hidden="true">→</span><div><span>데스크탑 이전 후</span><strong>약 1초</strong></div></div><p class="arch-note">최종 발표자료 23–24쪽의 관찰 결과입니다. 단계별 처리 시간은 미측정이며, 개선 원인별 기여도나 보장 응답 시간을 뜻하지 않습니다.</p>
+  <p class="arch-note">최종 발표자료의 서버 구성 기준 · 이 소개 페이지는 GitHub Pages에서 제공되며, 기침 음성을 직접 수집하거나 분석하지 않습니다.</p>
 </div></section>
 
 <section class="section status-area" id="progress"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">07 / Development record</div><h2>기획에서 구현으로,<br>구현에서 사용 경험으로.</h2></div><p class="section-intro">모델과 데이터 수집에서 시작해 앱·웹·대시보드로 넓혀 왔습니다. 현재는 사용성 개선과 다음 검증 단계를 준비합니다.</p></div>
+  <div class="section-top"><div><div class="eyebrow">07 / Development record</div><h2>기획에서 구현으로,<br>구현에서 사용 경험으로.</h2></div><p class="section-intro">모델과 데이터 수집에서 시작해 앱·웹·대시보드로 넓혀 왔습니다. 실측 데이터 연동을 마치고 앱 출시와 개인 기준 개발을 준비합니다.</p></div>
   <div class="timeline" aria-label="개발 이력">
-    <article class="milestone"><time>2025년 말</time><h3>모델과 데이터</h3><p>모델 개발과 데이터 수집을 시작했습니다.</p></article><article class="milestone"><time>2026.03</time><h3>계획과 역할 분담</h3><p>수행계획을 정리하고 분야별 역할을 나눴습니다.</p></article><article class="milestone"><time>2026년 상반기</time><h3>학술대회 발표</h3><p>논문 발표와 우수상 수상 기록을 남겼습니다.</p></article><article class="milestone"><time>2026.06</time><h3>앱 알파 테스트</h3><p>앱 테스트를 진행하고 공모전에 도전했습니다.</p></article><article class="milestone"><time>여름방학</time><h3>웹과 서버 확장</h3><p>웹·대시보드를 개발하고 서버를 이전했습니다.</p></article><article class="milestone"><time>2026년 2학기</time><h3>앱과 웹에 집중</h3><p>하드웨어 개발을 중단하고 앱·웹 완성도에 집중합니다.</p></article>
+    <article class="milestone"><time>2025년 말</time><h3>모델과 데이터</h3><p>모델 개발과 데이터 수집을 시작했습니다.</p></article><article class="milestone"><time>2026.03</time><h3>계획과 역할 분담</h3><p>수행계획을 정리하고 분야별 역할을 나눴습니다.</p></article><article class="milestone"><time>2026년 상반기</time><h3>학술대회 발표</h3><p>학술대회에서 프로젝트 논문을 발표했습니다.</p></article><article class="milestone"><time>2026.06</time><h3>앱 알파 테스트</h3><p>앱 테스트를 진행하고 공모전에 도전했습니다.</p></article><article class="milestone"><time>여름방학</time><h3>웹과 서버 확장</h3><p>웹·대시보드를 개발하고 서버를 이전했습니다.</p></article><article class="milestone"><time>2026년 최종 발표</time><h3>실측 데이터 연동</h3><p>대시보드 DB 연결과 데스크탑 서버 이전을 마치고 앱 출시를 준비합니다.</p></article>
   </div>
-  <div class="roadmap"><h3>다음으로 준비하는 것</h3><div class="roadmap-grid">
-    <article class="roadmap-item"><small>01 / PERSONAL BASELINE</small><h4>개인 맞춤 기준 분포</h4><p>개인별 기침 기록을 바탕으로 비교 기준을 만드는 기능을 연구합니다. 한국인 기침 데이터 수집도 향후 과제입니다.</p></article>
-    <article class="roadmap-item"><small>02 / DATA CONNECTION</small><h4>대시보드 실데이터 연동 검토</h4><p>데모 화면에서 다음 단계로 나아가기 위해, 실제 기록을 연결하는 방법을 검토합니다.</p></article>
-    <article class="roadmap-item"><small>03 / USER EXPERIENCE</small><h4>사용성 개선 후 앱 출시</h4><p>실사용 테스트에서 얻은 피드백으로 앱과 웹을 다듬고, 앱 출시를 준비합니다.</p></article>
+  <div class="roadmap"><h3>다음으로 준비하는 것</h3><div class="roadmap-grid final-roadmap">
+    <article class="roadmap-item"><small>01 / DATA COLLECTION</small><h4>한국인 기침 데이터</h4><p>자발적 참여 웹을 통한 데이터 수집을 계획합니다. 기준 분포의 대표성을 보완하는 다음 과제입니다.</p></article>
+    <article class="roadmap-item"><small>02 / PERSONAL BASELINE</small><h4>개인 맞춤 기준 분포</h4><p>구조 설계를 마치고 개인 데이터를 수집하고 있습니다. 자신의 이전 측정 기록과 비교하는 기능을 준비합니다.</p></article>
+    <article class="roadmap-item"><small>03 / BACKGROUND RECORDING</small><h4>기침을 놓치지 않는 기록</h4><p>앱을 켜는 동안 기침을 놓친다는 사용 의견을 바탕으로 백그라운드 녹음을 검토했습니다. 이번 학기에는 구현하지 못한 다음 과제입니다.</p></article>
+    <article class="roadmap-item"><small>04 / CLINICAL VALIDATION</small><h4>의료기관 협업과 검증</h4><p>의료기관과의 협업을 통해 임상 신뢰도를 검증하는 것을 목표로 합니다. 현재는 임상 검증 전 단계입니다.</p></article>
   </div></div>
-  <div class="notice" id="notice"><div><div class="eyebrow">Research & use</div><h3>연구 결과의 범위를<br>분명하게 설명합니다.</h3><p>ANiMA는 기침 음향의 차이와 기록을 살펴보는 연구·교육용 프로토타입입니다. 홈페이지는 프로젝트의 개발 내용을 소개합니다.</p></div><ul class="notice-facts"><li><strong>소리의 차이와 건강 상태를 구분합니다</strong>참조 분포와의 거리는 음향 특징의 차이입니다. 질병의 유무나 치료 방향을 판단하는 결과가 아닙니다.</li><li><strong>자체 분류 실험의 수치입니다</strong>공개한 정확도·F1·AUC는 기침과 비기침을 구분한 실험 결과입니다. 질병 진단 성능이나 임상적 유효성으로 확대해 해석하지 않습니다.</li><li><strong>현재 기능과 계획을 구분합니다</strong>대시보드는 데모 데이터 단계이며, 개인 맞춤 기준 분포·실데이터 연동·앱 출시는 향후 계획입니다.</li></ul></div>
-  <p class="source-footer">자료 기준: 「1조 ANiMA_2학기 발표」 · 페이지 구성 업데이트: 2026.10.11<br>발표자료에 기재된 진행 현황을 반영했습니다. 이전 산업 음향·웨어러블 구상은 현재 로드맵에서 제외했습니다.</p>
+  <div class="notice" id="notice"><div><div class="eyebrow">Research & use</div><h3>연구 결과의 범위를<br>분명하게 설명합니다.</h3><p>ANiMA는 기침 음향의 차이와 기록을 살펴보는 연구·교육용 프로토타입입니다. 홈페이지는 프로젝트의 개발 내용을 소개합니다.</p></div><ul class="notice-facts"><li><strong>소리의 차이와 건강 상태를 구분합니다</strong>참조 분포와의 거리는 음향 특징의 차이입니다. 질병의 유무나 치료 방향을 판단하는 결과가 아닙니다.</li><li><strong>자체 분류 실험의 수치입니다</strong>공개한 정확도·F1·AUC는 기침과 비기침을 구분한 실험 결과입니다. 질병 진단 성능이나 임상적 유효성으로 확대해 해석하지 않습니다.</li><li><strong>현재 기능과 계획을 구분합니다</strong>대시보드는 팀원 실측 데이터로 연동을 테스트했습니다. 개인 맞춤 기준과 백그라운드 녹음은 개발 과제이며, 앱은 정식 출시 준비 중입니다.</li></ul></div>
+  <p class="source-footer">자료 기준: 「ANiMA 최종 발표 (1)」 · 홈페이지 업데이트: 2026.10.20<br>최종 발표자료에 보고된 진행 현황을 반영했습니다. 서비스의 실제 운영 상태를 실시간으로 표시하는 페이지는 아닙니다.</p>
 </div></section>
 
 <section class="section" id="team"><div class="wrap">
-  <div class="section-top"><div><div class="eyebrow">08 / Team ANiMA</div><h2>다섯 사람의 역할이<br>하나의 경험으로 이어집니다.</h2></div><p class="section-intro">2026년 2학기 발표자료에 담긴 팀 구성입니다.</p></div>
+  <div class="section-top"><div><div class="eyebrow">08 / Team ANiMA</div><h2>다섯 사람의 역할이<br>하나의 경험으로 이어집니다.</h2></div><p class="section-intro">최종 발표자료에 담긴 다섯 명의 역할입니다.</p></div>
   <div class="team-list">
     <article class="member"><span class="member-index">01</span><div><h3>주세희</h3><span class="role-label">팀장 · Research & AI</span></div><p><span class="role">AI 모델 개발 · 데이터 전처리 · 기획</span>분석 모델과 데이터, 프로젝트 방향을 담당합니다.</p></article>
     <article class="member"><span class="member-index">02</span><div><h3>정해서</h3><span class="role-label">App & Web</span></div><p><span class="role">앱·웹 프런트엔드 · DB 설계</span>사용자가 기록하고 결과를 확인하는 화면과 데이터 구조를 담당합니다.</p></article>
@@ -181,14 +184,14 @@
 
 <section class="section" id="faq"><div class="wrap faq-layout"><div><div class="eyebrow">09 / A few answers</div><h2>궁금한 점을<br>짧게 정리했습니다.</h2></div><div class="faq-list">
   <details><summary>이 페이지에서 기침을 분석할 수 있나요?<span aria-hidden="true">+</span></summary><p>이 페이지는 프로젝트 소개용입니다. 실제 분석 기능은 별도로 개발한 앱과 웹에 있으며, 발표자료의 서비스 주소는 <a href="https://animawith.cloud" target="_blank" rel="noopener noreferrer">animawith.cloud</a>입니다.</p></details>
-  <details><summary>모델 정확도 95.3%는 무엇을 뜻하나요?<span aria-hidden="true">+</span></summary><p>2학기 발표자료에 제시된 자체 기침·비기침 분류 실험의 정확도입니다. 특정 질병을 진단하는 정확도가 아닙니다.</p></details>
-  <details><summary>지금도 개인별 기준으로 비교하나요?<span aria-hidden="true">+</span></summary><p>현재 소개된 분석은 연구용 기침 참조 분포와 비교하는 방식입니다. 개인의 기록으로 맞춤 기준 분포를 만드는 기능은 2학기 향후 계획입니다.</p></details>
-  <details><summary>대시보드는 실제 사람의 데이터를 보여주나요?<span aria-hidden="true">+</span></summary><p>발표자료에 수록된 기관용 대시보드는 데모 데이터 화면입니다. 실제 데이터 연동은 검토 단계입니다.</p></details>
-  <details><summary>웨어러블과 하드웨어 개발은 계속하나요?<span aria-hidden="true">+</span></summary><p>2학기 발표자료에서는 하드웨어 개발을 중단하고, 동작하는 앱과 웹의 완성도에 집중한다고 설명합니다.</p></details>
-  <details><summary>앱은 이미 출시됐나요?<span aria-hidden="true">+</span></summary><p>자료 기준으로 앱은 실사용 테스트 중입니다. 사용성 개선 후 출시하는 계획이며, 현재 소개 페이지에는 설치 파일을 제공하지 않습니다.</p></details>
+  <details><summary>모델 정확도 95.3%는 무엇을 뜻하나요?<span aria-hidden="true">+</span></summary><p>최종 발표자료에서 테스트 표본 2,911개에 대해 보고한 자체 기침·비기침 분류 실험의 정확도입니다. 특정 질병을 진단하는 정확도가 아닙니다.</p></details>
+  <details><summary>지금도 개인별 기준으로 비교하나요?<span aria-hidden="true">+</span></summary><p>현재는 COUGHVID healthy_cough 705개로 구성한 집단 기준과 비교합니다. 개인 맞춤 기준은 구조 설계를 마치고 개인 데이터를 수집하는 단계입니다.</p></details>
+  <details><summary>대시보드는 실제 사람의 데이터를 보여주나요?<span aria-hidden="true">+</span></summary><p>최종 발표자료에서는 서버 DB 연동을 완료하고 팀원 4명의 실측 데이터로 테스트했다고 보고했습니다. 실제 기관에 도입하기 전 단계입니다.</p></details>
+  <details><summary>웨어러블과 하드웨어 개발은 계속하나요?<span aria-hidden="true">+</span></summary><p>최종 발표자료에서는 하드웨어 개발을 중단하고, 동작하는 앱과 웹의 완성도에 집중한다고 설명합니다.</p></details>
+  <details><summary>앱은 이미 출시됐나요?<span aria-hidden="true">+</span></summary><p>최종 발표자료 기준으로 Google Play 개발자 계정 승인을 마치고 코드를 최종 점검 중입니다. 업로드 후 14일 테스트와 정식 출시를 계획하고 있으며, 아직 스토어 설치 링크는 제공하지 않습니다.</p></details>
 </div></div></section>
 </main>
-<footer class="footer"><div class="wrap"><div class="footer-top"><div><div class="footer-wordmark">ANiMA.</div><p>기침의 변화를, 일상의 기록으로.</p></div><div class="footer-links"><a href="https://github.com/ShinCssyou/anima" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://animawith.cloud" target="_blank" rel="noopener noreferrer">서비스 주소 ↗</a><a href="https://youtu.be/A5rlcgK2Vp8" target="_blank" rel="noopener noreferrer">앱 시연 영상 ↗</a><a href="#notice">연구 및 사용 안내</a><a href="#top">맨 위로 ↑</a></div></div><div class="footer-bottom"><span>© 2026 ANiMA Team<br>2026년 2학기 발표자료 반영 · 2026.10.11 업데이트</span><span>RECORD · COMPARE · REVIEW</span><span>Research & education prototype</span></div></div></footer>
+<footer class="footer"><div class="wrap"><div class="footer-top"><div><div class="footer-wordmark">ANiMA.</div><p>기침의 변화를, 일상의 기록으로.</p></div><div class="footer-links"><a href="https://github.com/ShinCssyou/anima" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://animawith.cloud" target="_blank" rel="noopener noreferrer">서비스 주소 ↗</a><a href="https://youtu.be/A5rlcgK2Vp8" target="_blank" rel="noopener noreferrer">앱 시연 영상 ↗</a><a href="#notice">연구 및 사용 안내</a><a href="#top">맨 위로 ↑</a></div></div><div class="footer-bottom"><span>© 2026 ANiMA Team<br>최종 발표자료 반영 · 2026.10.20 업데이트</span><span>RECORD · COMPARE · REVIEW</span><span>Research & education prototype</span></div></div></footer>
 <script>
   // All diagrams are deterministic conceptual illustrations, never measured health data.
   const ns = 'http://www.w3.org/2000/svg';
